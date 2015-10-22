@@ -1,0 +1,27 @@
+<div>
+
+  <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+    <thead>
+    <tr>
+      <th st-sort="Rank">Rank</th>
+      <th st-sort="Name">Name</th>
+      <th st-sort="Wins">Wins</th>
+      <th st-sort="Losses">Losses</th>
+      <th st-sort="Percent">Percent</th>
+    </tr>
+    <tr>
+      <th colspan="5"><input st-search="" ng-model="matchSearch" class="form-control" placeholder="Search matches..." type="text"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in displayedCollection | filter:matchSearch">
+      <td>{{ row.date | date : "medium" }}</td>
+      <td>{{ row.player1 | userName }}</td>
+      <td>{{ row.player1pts }}</td>
+      <td>{{ row.player2 | userName}}</td>
+      <td>{{row.player2pts}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

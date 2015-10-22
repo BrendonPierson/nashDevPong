@@ -1,0 +1,77 @@
+<div layout="row" ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" aria-label="menu">
+        <ng-md-icon icon="menu" size="24px" ng-click="toggleLeft()"></ng-md-icon>
+      </md-button>
+      <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+        <h2>Menu</h2>
+      </md-button>
+      <span flex></span>
+      <h2>
+        <span>nashDevPong</span>
+      </h2>
+      <span flex></span>
+      <h2 ng-hide="auth" ng-click="login()">Login</h2>
+      <md-button class="md-icon-button" aria-label="Login">
+        <ng-md-icon ng-hide="auth" icon="login" size="24px" ng-click="login()"></ng-md-icon>
+      </md-button>
+      <h2 ng-show="auth" ng-click="logout()">Logout</h2>
+      <md-button class="md-icon-button" aria-label="More">
+        <ng-md-icon ng-show="auth" icon="logout" size="24px" ng-click="logout()"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+</div>
+
+
+<div layout="column" ng-cloak>
+  <section layout="row" flex>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+      <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools">
+          <h1>Sidenav Left</h1>
+          <span flex></span>
+          <md-button class="md-icon-button" aria-label="close">
+            <ng-md-icon icon="close" size="24px" ng-click="close()"></ng-md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-content layout-padding>
+        <md-button ng-href="#/mystats" md-ripple-size="auto" class="md-raised md-accent btn-expand" aria-label="stats" ng-click="close()">My stats</md-button>
+        <h3>Matches</h3>
+        <md-button ng-href="#/singlesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Singles</md-button>
+        <md-button ng-href="#/doublesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
+        <h3>Rankings</h3>
+        <md-button ng-href="#/singlesrankings" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Singles</md-button>
+        <md-button ng-href="#/doublesrankings" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
+        <md-button ng-href="#/alltimesingles" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">All Time Singles</md-button>
+        <md-button ng-href="#/alltimedoubles" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">All Time Doubles</md-button>
+      </md-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+      <div layout="column" layout-fill layout-align="top center">
+        <!-- <p>
+        The left sidenav will 'lock open' on a medium (>=960px wide) device.
+        </p>
+        <p>
+        The right sidenav will focus on a specific child element.
+        </p>
+        <div>
+          <md-button ng-click="toggleLeft()"
+            class="md-primary" hide-gt-md>
+            Toggle left
+          </md-button>
+        </div>
+        <div>
+          <md-button ng-click="toggleRight()"
+            ng-hide="isOpenRight()"
+            class="md-primary">
+            Toggle right
+          </md-button>
+        </div> -->
+      </div>
+      <div flex></div>
+    </md-content>
+  </section>
+</div>
