@@ -31,6 +31,7 @@ app.controller("SinglesMatchesCtrl",
         console.log("added record with id " + id); // returns location in the array
         updateRanks($scope.newMatch);
         updateTableData();
+        $scope.displayAddMatch = false;
         $scope.newMatch = {};   
       });   
     };
@@ -42,13 +43,24 @@ app.controller("SinglesMatchesCtrl",
     };
 
     function updateRanks(match){
+
       if(match.player1pts > match.player2pts){
+
+
+        addWin(match, "player1");
+        addLoss(match, "player2");
+
         ref.child('users').child(match.player1).child('wins').push(match.player2);
         ref.child('users').child(match.player2).child('losses').push(match.player1);
       } else {
+
+        addWin(match, "player2");
+        addLoss(match, "player1");
+
         ref.child('users').child(match.player1).child('losses').push(match.player2);
         ref.child('users').child(match.player2).child('wins').push(match.player1);
       }
+
     }
 
     function updateTableData(){
@@ -61,5 +73,46 @@ app.controller("SinglesMatchesCtrl",
           $scope.displayedCollection = [].concat($scope.rowCollection);
       });
     }
+
+
+
+      
+
+
+    function addWin(match, player){
+      // Update wins num
+      ref.child('users').child(match[player]).child('winNum').transaction(function(currentData) {
+        if (currentData === null) {
+          console.log('user had now wins.');
+          return 1;
+        } else {
+          console.log('Added one win.');
+          return currentData += 1; // Abort the transaction.
+        }
+      });
+    }
+
+    function addLoss(match, player){
+      // Update wins num
+      ref.child('users').child(match[player]).child('lossNum').transaction(function(currentData) {
+        if (currentData === null) {
+          console.log('user had now wins.');
+          return 1;
+        } else {
+          console.log('Added one win.');
+          return currentData += 1; // Abort the transaction.
+        }
+      });
+    }
+
+
+
+
+
+
+
+
+
+
 
 }]);

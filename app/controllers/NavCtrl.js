@@ -48,6 +48,8 @@ app.controller("NavCtrl",
       newUser.displayName = data.github.displayName;
       newUser.userName = data.github.username;
       newUser.uid = data.uid;
+      newUser.wins = [];
+      newUser.losses = [];
       newUser.profileImageUrl = data.github.profileImageURL;
       newUser.dateAdded = Date.now();
 

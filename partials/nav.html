@@ -5,18 +5,18 @@
         <ng-md-icon icon="menu" size="24px" ng-click="toggleLeft()"></ng-md-icon>
       </md-button>
       <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
-        <h2>Menu</h2>
+        <h2 hide-sm>Menu</h2>
       </md-button>
       <span flex></span>
       <h2>
         <span>nashDevPong</span>
       </h2>
       <span flex></span>
-      <h2 ng-hide="auth" ng-click="login()">Login</h2>
+      <h2 ng-hide="auth" ng-click="login()" hide-sm>Login</h2>
       <md-button class="md-icon-button" aria-label="Login">
         <ng-md-icon ng-hide="auth" icon="login" size="24px" ng-click="login()"></ng-md-icon>
       </md-button>
-      <h2 ng-show="auth" ng-click="logout()">Logout</h2>
+      <h2 ng-show="auth" ng-click="logout()" hide-sm>Logout</h2>
       <md-button class="md-icon-button" aria-label="More">
         <ng-md-icon ng-show="auth" icon="logout" size="24px" ng-click="logout()"></ng-md-icon>
       </md-button>

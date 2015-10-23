@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="/lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
 <div>
 
   <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
@@ -15,11 +17,11 @@
     </thead>
     <tbody>
     <tr ng-repeat="row in displayedCollection | filter:matchSearch">
-      <td>{{ row.date | date : "medium" }}</td>
-      <td>{{ row.player1 | userName }}</td>
-      <td>{{ row.player1pts }}</td>
-      <td>{{ row.player2 | userName}}</td>
-      <td>{{row.player2pts}}</td>
+      <td>{{ $index + 1 }}</td>
+      <td>{{ row.displayName }}</td>
+      <td>{{ row.winNum }}</td>
+      <td>{{ row.lossNum }}</td>
+      <td>{{ row.winNum / row.lossNum | percent:2 }}</td>
     </tr>
     </tbody>
   </table>
