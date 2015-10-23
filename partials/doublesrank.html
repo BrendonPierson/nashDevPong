@@ -1,0 +1,29 @@
+<link rel="stylesheet" type="text/css" href="/lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+<div>
+
+  <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+    <thead>
+    <tr>
+      <th st-sort="Rank">Rank</th>
+      <th st-sort="Name">Team</th>
+      <th st-sort="Wins">Wins</th>
+      <th st-sort="Losses">Losses</th>
+      <th st-sort="Percent">Percent</th>
+    </tr>
+    <tr>
+      <th colspan="5"><input st-search="" ng-model="matchSearch" class="form-control" placeholder="Search matches..." type="text"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in displayedCollection | filter:matchSearch">
+      <td>{{ $index + 1 }}</td>
+      <td>{{ row.teamUid | teamMembers }}</td>
+      <td>{{ row.winNum }}</td>
+      <td>{{ row.lossNum }}</td>
+      <td>{{ row.winNum / row.lossNum | percent:2 }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

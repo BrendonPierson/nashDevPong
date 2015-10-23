@@ -48,7 +48,7 @@ app.config(['$routeProvider', function($routeProvider){
           return fb.getAuthObj().$requireAuth();
         }]
       }
-    }).
+    })
     // when('/board/:id', {
     //   templateUrl: 'partials/singleBoard.html',
     //   controller: 'SingleBoardCtrl',
@@ -58,15 +58,7 @@ app.config(['$routeProvider', function($routeProvider){
     //     }]
     //   }
     // }).
-    when('/singlesrankings', {
-      templateUrl: 'partials/singlesrank.html',
-      controller: 'SinglesRankCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    }).when('/singlesmatches', {
+    .when('/singlesmatches', {
       templateUrl: 'partials/matches.html',
       controller: 'SinglesMatchesCtrl',
       resolve: {
