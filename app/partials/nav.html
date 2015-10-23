@@ -3,6 +3,9 @@
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button" aria-label="menu">
         <ng-md-icon icon="menu" size="24px" ng-click="toggleLeft()"></ng-md-icon>
+        <md-tooltip>
+          Menu
+        </md-tooltip>
       </md-button>
       <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
         <h2 hide-sm>Menu</h2>
@@ -15,10 +18,16 @@
       <h2 ng-hide="auth" ng-click="login()" hide-sm>Login</h2>
       <md-button class="md-icon-button" aria-label="Login">
         <ng-md-icon ng-hide="auth" icon="login" size="24px" ng-click="login()"></ng-md-icon>
+        <md-tooltip>
+          Login
+        </md-tooltip>
       </md-button>
       <h2 ng-show="auth" ng-click="logout()" hide-sm>Logout</h2>
       <md-button class="md-icon-button" aria-label="More">
         <ng-md-icon ng-show="auth" icon="logout" size="24px" ng-click="logout()"></ng-md-icon>
+        <md-tooltip>
+          Logout
+        </md-tooltip>
       </md-button>
     </div>
   </md-toolbar>
@@ -30,10 +39,13 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
       <md-toolbar class="md-theme-indigo">
         <div class="md-toolbar-tools">
-          <h1>Sidenav Left</h1>
+          <h1>Menu</h1>
           <span flex></span>
           <md-button class="md-icon-button" aria-label="close">
             <ng-md-icon icon="close" size="24px" ng-click="close()"></ng-md-icon>
+            <md-tooltip>
+              Close Menu
+            </md-tooltip>
           </md-button>
         </div>
       </md-toolbar>
