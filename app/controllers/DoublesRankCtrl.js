@@ -11,9 +11,7 @@ app.controller("DoublesRankCtrl",
 
     var teams = $firebaseArray(ref.child('doublesTeams'));
     teams.$loaded().then(function(teams){
-      console.log("users", teams);
-
-
+      console.log("Teams", teams);
 
       $scope.displayedCollection = _.sortBy(teams,function(team){
         return -(team.winNum / team.lossNum);
