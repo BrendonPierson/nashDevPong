@@ -19,18 +19,6 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 // but I think eventually will?
 app.config(['$routeProvider', function($routeProvider){
   $routeProvider.
-    when("/login", {
-      controller: "LoginCtrl",
-      templateUrl: "partials/login.html",
-      resolve: {
-        // controller will not be loaded until $waitForAuth resolves
-        // Auth refers to our $firebaseAuth wrapper in the example above
-        "currentAuth": ["fb", function(fb) {
-          // $waitForAuth returns a promise so the resolve waits for it to complete
-          return fb.getAuthObj().$waitForAuth();
-        }]
-      }
-    }).
     when('/singlesrank', {
       templateUrl: 'partials/singlesrank.html',
       controller: 'SinglesRankCtrl',
