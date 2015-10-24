@@ -1,9 +1,11 @@
 app.controller("SinglesRankCtrl", 
   [  "$scope", 
   "$log",
+  "$q",
+  "$timeout",
   "$firebaseArray",
   "league",
-  function($scope, $log, $firebaseArray, league) {
+  function($scope, $log, $q, $timeout, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -25,10 +27,42 @@ app.controller("SinglesRankCtrl",
       var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
       users.$loaded().then(function(users){
         console.log("users", users);
+        for (var i = users.length - 1; i >= 0; i--) {
+          users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
+        };
         $scope.displayedCollection = _.sortBy(users,function(user){
           return -(user.winNum / user.lossNum);
         });
       });
     }
+
+
+    $scope.query = {
+      order: '-winPercent',
+      limit: 20,
+      page: 1
+    };
+    
+    
+    $scope.onpagechange = function(page, limit) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+    
+    $scope.onorderchange = function(order) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+
   }
 ]);

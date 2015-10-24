@@ -1,9 +1,11 @@
 app.controller("DoublesMatchesCtrl", 
   ["$scope", 
   "$log",
+  "$q",
+  "$timeout",
   "$firebaseArray",
   "league",
-  function($scope, $log, $firebaseArray, league) {
+  function($scope, $log, $q, $timeout, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
@@ -72,13 +74,13 @@ app.controller("DoublesMatchesCtrl",
       if(match.t1score > match.t2score){
         addWin(match,team1uid, currentLeague);
         addLoss(match,team2uid, currentLeague);
-        ref.child('doublesTeams').child(team1uid).child('wins').push(team2uid);
-        ref.child('doublesTeams').child(team2uid).child('losses').push(team1uid);
+        ref.child('doublesTeams').child(team1uid + "-winNum").push(team2uid);
+        ref.child('doublesTeams').child(team2uid + "-lossNum").push(team1uid);
       } else {
         addWin(match,team2uid, currentLeague);
         addLoss(match,team1uid, currentLeague);
-        ref.child('doublesTeams').child(team1uid).child('losses').push(team2uid);
-        ref.child('doublesTeams').child(team2uid).child('wins').push(team1uid);
+        ref.child('doublesTeams').child(team1uid + "-lossNum").push(team2uid);
+        ref.child('doublesTeams').child(team2uid + "-winNum").push(team1uid);
       }
     }
 
@@ -121,6 +123,34 @@ app.controller("DoublesMatchesCtrl",
     $scope.toggleAddMatch = function(){
       $scope.displayAddMatch = $scope.displayAddMatch ? false : true;
     };
+
+    //Table Logic 
+      $scope.query = {
+    order: '-date',
+    limit: 20,
+    page: 1
+  };
+  
+  
+  $scope.onpagechange = function(page, limit) {
+    var deferred = $q.defer();
+    
+    $timeout(function () {
+      deferred.resolve();
+    }, 2000);
+    
+    return deferred.promise;
+  };
+  
+  $scope.onorderchange = function(order) {
+    var deferred = $q.defer();
+    
+    $timeout(function () {
+      deferred.resolve();
+    }, 2000);
+    
+    return deferred.promise;
+  };
 
 
 }]);

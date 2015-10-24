@@ -1,29 +1,32 @@
-<link rel="stylesheet" type="text/css" href="/lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<md-content laout="column" flex>
+  <md-card>
+    <md-data-table-toolbar>
+      <h2 class="md-title">Doubles Rankings</h2>
+    </md-data-table-toolbar>
 
-<div>
+    <md-data-table-container>
+      <table md-data-table class="md-primary" md-progress="deferred">
+        <thead md-order="query.order" md-trigger="onorderchange">
+          <tr>
+            <th flex numeric order-by="$index" name="Rank" unit=""></th>
+            <th flex order-by="teamUid" name="Team"></th>
+            <th flex numeric order-by="winNum" name="Wins"></th>
+            <th flex numeric order-by="lossNum" name="Losses"></th>
+            <th flex numeric order-by="winPercent" name="Win Percentage"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+            <td flex>{{ $index + 1 }}</td>
+            <td flex>{{ row.teamUid | teamMembers }}</td>
+            <td flex>{{ row.winNum }}</td>
+            <td flex>{{ row.lossNum }}</td>
+            <td flex>{{ row.winPercent | percent:2 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
 
-  <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
-    <thead>
-    <tr>
-      <th st-sort="Rank">Rank</th>
-      <th st-sort="Name">Team</th>
-      <th st-sort="Wins">Wins</th>
-      <th st-sort="Losses">Losses</th>
-      <th st-sort="Percent">Percent</th>
-    </tr>
-    <tr>
-      <th colspan="5"><input st-search="" ng-model="matchSearch" class="form-control" placeholder="Search matches..." type="text"/></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="row in displayedCollection | filter:matchSearch">
-      <td>{{ $index + 1 }}</td>
-      <td>{{ row.teamUid | teamMembers }}</td>
-      <td>{{ row.winNum }}</td>
-      <td>{{ row.lossNum }}</td>
-      <td>{{ row.winNum / (row.lossNum + row.winNum) | percent:2 }}</td>
-    </tr>
-    </tbody>
-  </table>
-
-</div>
+    <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{displayedCollection.length}}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+</md-content>

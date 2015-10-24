@@ -1,9 +1,11 @@
 app.controller("SinglesMatchesCtrl", 
-  [  "$scope", 
+  ["$scope", 
   "$log",
+  "$q",
+  "$timeout",
   "$firebaseArray",
   "league",
-  function($scope, $log, $firebaseArray, league) {
+  function($scope, $log, $q, $timeout, $firebaseArray, league) {
     $scope.newMatch = {};
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
@@ -56,15 +58,15 @@ app.controller("SinglesMatchesCtrl",
         addWin(match, "player1", currentLeague);
         addLoss(match, "player2", currentLeague);
 
-        ref.child('users').child(match.player1).child(currentLeague).child('wins').push(match.player2);
-        ref.child('users').child(match.player2).child(currentLeague).child('losses').push(match.player1);
+        ref.child('users').child(match.player1).child(currentLeague + "-winNum").push(match.player2);
+        ref.child('users').child(match.player2).child(currentLeague + "-lossNum").push(match.player1);
       } else {
 
         addWin(match, "player2", currentLeague);
         addLoss(match, "player1", currentLeague);
 
-        ref.child('users').child(match.player1).child(currentLeague).child('losses').push(match.player2);
-        ref.child('users').child(match.player2).child(currentLeague).child('wins').push(match.player1);
+        ref.child('users').child(match.player1).child(currentLeague + "-lossNum").push(match.player2);
+        ref.child('users').child(match.player2).child(currentLeague + "-winNum").push(match.player1);
       }
     }
 
@@ -112,5 +114,35 @@ app.controller("SinglesMatchesCtrl",
         }
       });
     }
+
+    // Table Logic
+    $scope.query = {
+      order: '-date',
+      limit: 20,
+      page: 1
+    };
+    
+    
+    $scope.onpagechange = function(page, limit) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+    
+    $scope.onorderchange = function(order) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+
+
 
 }]);

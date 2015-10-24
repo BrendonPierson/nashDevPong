@@ -1,5 +1,6 @@
 
-var app = angular.module("MatchApp", ['ngRoute', 'firebase', 'ngMaterial', 'ngMdIcons']);
+var app = angular.module("MatchApp", 
+  ['ngRoute', 'firebase', 'ngMaterial', 'md.data.table', 'ngMdIcons']);
 
 // This first part tells the app that auth is required, 
 //if the user isn't logged in it redirects to the login page
@@ -46,7 +47,7 @@ app.config(['$routeProvider', function($routeProvider){
       }
     })
     .when('/singlesmatches', {
-      templateUrl: 'partials/matches.html',
+      templateUrl: 'partials/singlesMatchTable.html',
       controller: 'SinglesMatchesCtrl',
       resolve: {
         "currentAuth": ["fb", function(fb) {
@@ -55,7 +56,7 @@ app.config(['$routeProvider', function($routeProvider){
       }
     }).
     when('/doublesmatches', {
-      templateUrl: 'partials/doublesmatches.html',
+      templateUrl: 'partials/doublesMatchTable.html',
       controller: 'DoublesMatchesCtrl',
       resolve: {
         "currentAuth": ["fb", function(fb) {
