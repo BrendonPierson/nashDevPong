@@ -39,7 +39,7 @@ app.controller("SinglesRankCtrl",
 
     $scope.query = {
       order: '-winPercent',
-      limit: 20,
+      limit: 5,
       page: 1
     };
     

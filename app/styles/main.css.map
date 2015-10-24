@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,cAAe;EACb,aAAa,EAAE,IAAI;;ACDrB,kDAAmD;EACjD,SAAS,EAAE,IAAI;;ACCjB,WAAY;EACV,KAAK,EAAE,GAAG",
+"mappings": "AAAA,cAAe;EACb,aAAa,EAAE,IAAI;;AAGrB,MAAO;EACL,KAAK,EAAE,IAAI;;ACLb,kDAAmD;EACjD,SAAS,EAAE,IAAI;;ACCjB,WAAY;EACV,KAAK,EAAE,GAAG",
 "sources": ["../sass/_userStats.scss","../sass/_tables.scss","../sass/main.scss"],
 "names": [],
 "file": "main.css"

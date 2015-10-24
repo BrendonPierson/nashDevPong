@@ -1,12 +1,12 @@
 <div layout layout-padding layout-margin layout-align="center top" layout-sm="column" wrap>
-  <div flex>
+  <div layout-align="center center">
     <h1>{{ user.displayName }} </h1>
     <img class="profile-image" ng-src="{{ user.profileImageUrl }}" alt="Profile Image" width="300px">
     <h3>aka {{ user.userName }} </h3>
     <p>Joined {{ user.dateAdded | date }}</p>
   </div>
-  <div flex>
-    <md-card>
+  <div flex id="stats">
+    <md-card layout-align="center center">
       <md-card-content ng-cloak>
         <h1>Stats</h1>
         <h3>Total Wins: {{ user.winNum }}</h3>

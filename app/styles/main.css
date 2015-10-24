@@ -1,6 +1,9 @@
 .profile-image {
   border-radius: 100%; }
 
+#stats {
+  width: 100%; }
+
 table[md-data-table] > thead > tr > th > div[trim] {
   min-width: 30px; }
 
