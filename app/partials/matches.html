@@ -18,7 +18,7 @@
     
     <div layout layout-sm="column">
       <md-input-container>
-        <label>{{ user.displayName }} Vs. </label>
+        <label>{{ user.username }} Vs. </label>
       </md-input-container>
       <md-input-container flex>
         <label>Opponent</label>
@@ -27,7 +27,7 @@
           <!-- Need to creat filter to remove current user from dropdown -->
 
           <md-option ng-repeat="person in users" value="{{ person.uid }}">
-            {{ person.displayName }}
+            {{ person.userName }}
           </md-option>
         </md-select>
       </md-input-container>

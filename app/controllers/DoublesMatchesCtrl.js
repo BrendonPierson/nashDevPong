@@ -13,6 +13,7 @@ app.controller("DoublesMatchesCtrl",
 
     $scope.user = fb.getAuthObj().$getAuth().github;
 
+    console.log("scope.user", $scope.user);
 
 
 

@@ -29,6 +29,7 @@ app.controller("NavCtrl",
           console.log("Authenticated successfully with payload:", authData);
           if(checkForUser(authData.uid)){
             console.log("user exists");
+            console.log("authdata", authData);
           } else {
             console.log("new user");
             addNewUser(authData);
@@ -50,6 +51,8 @@ app.controller("NavCtrl",
       newUser.uid = data.uid;
       newUser.wins = [];
       newUser.losses = [];
+      newUser.winNum = 0;
+      newUser.lossNum = 0;
       newUser.profileImageUrl = data.github.profileImageURL;
       newUser.dateAdded = Date.now();
 

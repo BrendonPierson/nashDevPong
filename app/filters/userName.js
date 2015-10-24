@@ -4,7 +4,7 @@ app.filter('userName', [
     var users = fb.getUsersArr();
 
     return function(uid) {
-      return _.find(users, 'uid', uid).displayName;
+      return _.find(users, 'uid', uid).userName;
     };
   }
 ]);

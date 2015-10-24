@@ -18,13 +18,13 @@
     
     <div layout layout-sm="column">
       <md-input-container>
-        <label>{{ user.displayName }} &amp; </label>
+        <label>{{ user.username }} &amp; </label>
       </md-input-container>
       <md-input-container flex>
         <label>Teammate</label>
         <md-select ng-model="newMatch.t1player2">
           <md-option ng-repeat="person in users" value="{{ person.uid }}">
-            {{ person.displayName }}
+            {{ person.userName }}
           </md-option>
         </md-select>
       </md-input-container>
@@ -32,7 +32,7 @@
         <label>Team 2</label>
         <md-select ng-model="newMatch.t2player1">
           <md-option ng-repeat="person in users" value="{{ person.uid }}">
-            {{ person.displayName }}
+            {{ person.userName }}
           </md-option>
         </md-select>
       </md-input-container>
@@ -40,7 +40,7 @@
         <label>Team 2</label>
         <md-select ng-model="newMatch.t2player2">
           <md-option ng-repeat="person in users" value="{{ person.uid }}">
-            {{ person.displayName }}
+            {{ person.userName }}
           </md-option>
         </md-select>
       </md-input-container>
