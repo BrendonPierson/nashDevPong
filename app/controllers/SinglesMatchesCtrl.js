@@ -1,54 +1,60 @@
 app.controller("SinglesMatchesCtrl", 
   [  "$scope", 
+  "$log",
   "fb", 
   "$location",
   "$firebaseArray",
-  function($scope, fb, $location, $firebaseArray) {
+  "league",
+  function($scope, $log, fb, $location, $firebaseArray, league) {
     $scope.newMatch = {};
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
     $scope.title="Singles Matches";
 
-    $scope.users = $firebaseArray(ref.child('users'));
 
     $scope.user = fb.getAuthObj().$getAuth().github;
 
     console.log("scope.user", $scope.user);
 
+    $scope.users = $firebaseArray(ref.child('users'));
 
-
-
-    $scope.rowCollection = $firebaseArray(ref.child('singlesMatches'));
-    //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
-    $scope.rowCollection.$loaded().then(function(){
-        $scope.displayedCollection = [].concat($scope.rowCollection);
+    // Promise gets the users current league
+    var currentLeague = '';
+    var promise = league.getLeague();
+    promise.then(function(leag) {
+      $log.log("league", leag);
+      setTableData(leag);
+      currentLeague = leag;
+    }, function(reason) {
+      alert('Failed: ' + reason);
     });
 
     $scope.addMatch = function(){
       $scope.newMatch.date = Date.now();
       $scope.newMatch.player1 = fb.getAuthObj().$getAuth().uid;
-      $scope.rowCollection.$add($scope.newMatch).then(function(ref) {
+      $scope.newMatch.league = currentLeague;
+      $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
         var id = ref.key();
         console.log("added record with id " + id); // returns location in the array
         updateRanks($scope.newMatch);
-        updateTableData();
         $scope.displayAddMatch = false;
         $scope.newMatch = {};   
       });   
     };
 
-    // Toggle logit for add matches form
+    // Toggle for add matches form
     $scope.displayAddMatch = false;
     $scope.toggleAddMatch = function(){
       $scope.displayAddMatch = $scope.displayAddMatch ? false : true;
     };
 
+    function setTableData(league){
+      $scope.displayedCollection = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
+    }
+
     function updateRanks(match){
-
       if(match.player1pts > match.player2pts){
-
-
         addWin(match, "player1");
         addLoss(match, "player2");
 
@@ -62,24 +68,7 @@ app.controller("SinglesMatchesCtrl",
         ref.child('users').child(match.player1).child('losses').push(match.player2);
         ref.child('users').child(match.player2).child('wins').push(match.player1);
       }
-
     }
-
-    function updateTableData(){
-      console.log("updating table data");
-      $scope.rowCollection = $firebaseArray(fb.getRef().child('singlesMatches'));
-
-
-      //copy the references (you could clone ie angular.copy but then have to go through a dirty checking for the matches)
-      $scope.rowCollection.$loaded().then(function(){
-          $scope.displayedCollection = [].concat($scope.rowCollection);
-      });
-    }
-
-
-
-      
-
 
     function addWin(match, player){
       // Update wins num
@@ -106,15 +95,5 @@ app.controller("SinglesMatchesCtrl",
         }
       });
     }
-
-
-
-
-
-
-
-
-
-
 
 }]);

@@ -7,9 +7,8 @@ app.controller("NavCtrl",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
-  "league",
   function($scope,fb, $location, $log, $timeout, $mdSidenav, 
-    $firebaseAuth, $firebaseArray, league) {
+    $firebaseAuth, $firebaseArray) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -22,16 +21,6 @@ app.controller("NavCtrl",
     var users = $firebaseArray(ref.child('users'));
 
     $log.log("authData: ", $scope.auth);
-
-
-
-    var promise = league.getLeague();
-    promise.then(function(leag) {
-      $log.log("league", leag);
-    }, function(reason) {
-      alert('Failed: ' + reason);
-    });
-
 
     $scope.login = function(){
       ref.authWithOAuthPopup("github", function(error, authData) { //1.firebase sends request for request token to github with client id and secret id
