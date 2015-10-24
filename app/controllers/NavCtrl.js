@@ -7,7 +7,9 @@ app.controller("NavCtrl",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
-  function($scope, fb, $location, $log, $timeout, $mdSidenav, $firebaseAuth, $firebaseArray) {
+  "league",
+  function($scope,fb, $location, $log, $timeout, $mdSidenav, 
+    $firebaseAuth, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -19,19 +21,29 @@ app.controller("NavCtrl",
 
     var users = $firebaseArray(ref.child('users'));
 
-    console.log("authData: ", $scope.auth);
+    $log.log("authData: ", $scope.auth);
+
+
+
+    var promise = league.getLeague();
+    promise.then(function(leag) {
+      $log.log("league", leag);
+    }, function(reason) {
+      alert('Failed: ' + reason);
+    });
+
 
     $scope.login = function(){
       ref.authWithOAuthPopup("github", function(error, authData) { //1.firebase sends request for request token to github with client id and secret id
         if (error) {
-          console.log("Login Failed!", error);
+          $log.log("Login Failed!", error);
         } else {
-          console.log("Authenticated successfully with payload:", authData);
+          $log.log("Authenticated successfully with payload:", authData);
           if(checkForUser(authData.uid)){
-            console.log("user exists");
-            console.log("authdata", authData);
+            $log.log("user exists");
+            $log.log("authdata", authData);
           } else {
-            console.log("new user");
+            $log.log("new user");
             addNewUser(authData);
           }
         }
