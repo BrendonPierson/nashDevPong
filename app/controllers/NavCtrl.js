@@ -1,13 +1,12 @@
 app.controller("NavCtrl", 
   ["$scope", 
-  "fb", 
   "$location",
   "$log",
   "$timeout",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
-  function($scope,fb, $location, $log, $timeout, $mdSidenav, 
+  function($scope, $location, $log, $timeout, $mdSidenav, 
     $firebaseAuth, $firebaseArray) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
@@ -43,6 +42,10 @@ app.controller("NavCtrl",
     $scope.logout = function() {
       $firebaseAuth(ref).$unauth();
       $scope.auth = null;
+    };
+
+    $scope.goHome = function(){
+      $location.path('/home');
     };
 
     function addNewUser(data){

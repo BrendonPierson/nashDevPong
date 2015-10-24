@@ -1,11 +1,9 @@
 app.controller("SinglesMatchesCtrl", 
   [  "$scope", 
   "$log",
-  "fb", 
-  "$location",
   "$firebaseArray",
   "league",
-  function($scope, $log, fb, $location, $firebaseArray, league) {
+  function($scope, $log, $firebaseArray, league) {
     $scope.newMatch = {};
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
@@ -13,7 +11,7 @@ app.controller("SinglesMatchesCtrl",
     $scope.title="Singles Matches";
 
 
-    $scope.user = fb.getAuthObj().$getAuth().github;
+    $scope.user = ref.getAuth().github;
 
     console.log("scope.user", $scope.user);
 
@@ -32,7 +30,7 @@ app.controller("SinglesMatchesCtrl",
 
     $scope.addMatch = function(){
       $scope.newMatch.date = Date.now();
-      $scope.newMatch.player1 = fb.getAuthObj().$getAuth().uid;
+      $scope.newMatch.player1 = ref.getAuth().uid;
       $scope.newMatch.league = currentLeague;
       $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
         var id = ref.key();

@@ -1,20 +1,34 @@
 app.controller("SinglesRankCtrl", 
   [  "$scope", 
-  "fb", 
-  "$location",
+  "$log",
   "$firebaseArray",
-  function($scope, fb, $location, $firebaseArray) {
+  "league",
+  function($scope, $log, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
     $scope.displayedCollection = [];
 
-    var users = $firebaseArray(ref.child('users'));
-    users.$loaded().then(function(users){
-      console.log("users", users);
-      $scope.displayedCollection = _.sortBy(users,function(user){
-        return -(user.winNum / user.lossNum);
-      });
+
+    // Promise gets the users current league
+    var currentLeague = '';
+    var promise = league.getLeague();
+    promise.then(function(leag) {
+      $log.log("league", leag);
+      loadLeagueUsers(leag);
+      currentLeague = leag;
+    }, function(reason) {
+      alert('Failed: ' + reason);
     });
+
+    function loadLeagueUsers(league){
+      var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
+      users.$loaded().then(function(users){
+        console.log("users", users);
+        $scope.displayedCollection = _.sortBy(users,function(user){
+          return -(user.winNum / user.lossNum);
+        });
+      });
+    }
   }
 ]);
