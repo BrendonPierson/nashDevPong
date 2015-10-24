@@ -26,8 +26,6 @@ app.controller("DoublesMatchesCtrl",
       alert('Failed: ' + reason);
     });
 
-
-
     function setTableData(league){
       $scope.displayedCollection = $firebaseArray(ref.child('doublesMatches').orderByChild('league').equalTo(league));
     }
@@ -72,19 +70,19 @@ app.controller("DoublesMatchesCtrl",
 
 
       if(match.t1score > match.t2score){
-        addWin(match,team1uid);
-        addLoss(match,team2uid);
+        addWin(match,team1uid, currentLeague);
+        addLoss(match,team2uid, currentLeague);
         ref.child('doublesTeams').child(team1uid).child('wins').push(team2uid);
         ref.child('doublesTeams').child(team2uid).child('losses').push(team1uid);
       } else {
-        addWin(match,team2uid);
-        addLoss(match,team1uid);
+        addWin(match,team2uid, currentLeague);
+        addLoss(match,team1uid, currentLeague);
         ref.child('doublesTeams').child(team1uid).child('losses').push(team2uid);
         ref.child('doublesTeams').child(team2uid).child('wins').push(team1uid);
       }
     }
 
-    function addWin(match, team){
+    function addWin(match, team, league){
       // Update wins num
       ref.child('users').child(match[team]).child('winNum').transaction(function(currentData) {
         if (currentData === null) {
@@ -95,11 +93,7 @@ app.controller("DoublesMatchesCtrl",
           return currentData += 1; // Abort the transaction.
         }
       });
-    }
-
-    function addLoss(match, team){
-      // Update wins num
-      ref.child('users').child(match[team]).child('lossNum').transaction(function(currentData) {
+      ref.child('users').child(match[team]).child(league).child('winNum').transaction(function(currentData) {
         if (currentData === null) {
           console.log('user had now wins.');
           return 1;
@@ -110,8 +104,18 @@ app.controller("DoublesMatchesCtrl",
       });
     }
 
-
-
+    function addLoss(match, team, league){
+      // Update wins num
+      ref.child('users').child(match[team]).child(league).child('lossNum').transaction(function(currentData) {
+        if (currentData === null) {
+          console.log('user had now wins.');
+          return 1;
+        } else {
+          console.log('Added one win.');
+          return currentData += 1; // Abort the transaction.
+        }
+      });
+    }
 
     $scope.displayAddMatch = false;
     $scope.toggleAddMatch = function(){

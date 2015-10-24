@@ -15,8 +15,7 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 
 // This designates the view and controller based on the route
 // The resolve bit is what prevents a user from seeing anything untill they 
-// are logged in.  Note: I added routes that don't currently exist, 
-// but I think eventually will?
+// are logged in. 
 app.config(['$routeProvider', function($routeProvider){
   $routeProvider.
     when('/singlesrank', {
