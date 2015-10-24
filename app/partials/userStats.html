@@ -1,0 +1,68 @@
+<div layout layout-padding layout-margin layout-align="center top" layout-sm="column" wrap>
+  <div flex>
+    <h1>{{ user.displayName }} </h1>
+    <img class="profile-image" ng-src="{{ user.profileImageUrl }}" alt="Profile Image" width="300px">
+    <h3>aka {{ user.userName }} </h3>
+    <p>Joined {{ user.dateAdded | date }}</p>
+  </div>
+  <div flex>
+    <md-card>
+      <md-card-content ng-cloak>
+        <h1>Stats</h1>
+        <h3>Total Wins: {{ user.winNum }}</h3>
+        <h3>Total Losses: {{ user.lossNum }}</h3>
+        <h3>Win Percentage: {{ (user.winNum / (user.winNum + user.lossNum)) | percent:2 }}</h3>
+        <p>Current League: {{ user.league | leagueFilter }}</p>
+        <form ng-show="showNewLeague" ng-submit="addNewLeague()">
+          <md-input-container>
+            <label>New League</label>
+            <div layout="column">
+              <md-input-container flex>
+                <label>League name</label>
+                <input ng-model="newleague.name">
+              </md-input-container>
+              <md-input-container flex>
+                <label>nickName</label>
+                <input ng-model="newleague.nickName">
+              </md-input-container>
+              <md-input-container flex>
+                <label>Location</label>
+                <input ng-model="newleague.location">
+              </md-input-container>
+            </div>
+          </md-input-container>
+          <md-button class="md-raised md-primary">Submit</md-button>
+        </form>
+        <form ng-show="showChangeLeague" ng-submit="changeUserLeague()">
+          <md-input-container>
+            <label>League</label>
+            <md-select ng-model="user.league">
+              <md-option ng-repeat="league in leagues" value="{{ league.uid }}">
+                {{ league.name }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-button class="md-raised md-primary">Submit</md-button>
+        </form>
+        <md-button class="md-fab">
+          <ng-md-icon icon="find_replace" size="24px" ng-click="toggleChangeLeague()">
+            <md-tooltip>
+              Change League
+            </md-tooltip>
+          </ng-md-icon>
+        </md-button>
+        <md-button class="md-fab">
+          <ng-md-icon icon="group_add" size="24px" ng-click="toggleNewLeague()">
+            <md-tooltip>
+              New League
+            </md-tooltip>
+          </ng-md-icon>
+        </md-button>
+      </md-card-content>
+    </md-card>
+  </div>
+
+</div>
+
+
+  

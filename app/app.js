@@ -35,16 +35,16 @@ app.config(['$routeProvider', function($routeProvider){
           return fb.getAuthObj().$requireAuth();
         }]
       }
+    }).
+    when('/stats/:id', {
+      templateUrl: 'partials/userStats.html',
+      controller: 'UserStatsCtrl',
+      resolve: {
+        "currentAuth": ["fb", function(fb) {
+          return fb.getAuthObj().$requireAuth();
+        }]
+      }
     })
-    // when('/board/:id', {
-    //   templateUrl: 'partials/singleBoard.html',
-    //   controller: 'SingleBoardCtrl',
-    //   resolve: {
-    //     "currentAuth": ["Auth", function(Auth) {
-    //       return Auth.$requireAuth();
-    //     }]
-    //   }
-    // }).
     .when('/singlesmatches', {
       templateUrl: 'partials/matches.html',
       controller: 'SinglesMatchesCtrl',

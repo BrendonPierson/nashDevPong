@@ -1,5 +1,5 @@
 app.controller("DoublesMatchesCtrl", 
-  [  "$scope", 
+  ["$scope", 
   "$log",
   "$firebaseArray",
   "league",
