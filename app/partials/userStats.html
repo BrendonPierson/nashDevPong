@@ -62,8 +62,43 @@
       </md-card-content>
     </md-card>
   </div>
-
 </div>
 
+<md-content laout="column" flex>
+  <md-card>
+    <md-data-table-toolbar>
+      <h1>Recent Matches</h1>
+      <!-- <md-button class="md-fab" aria-label="Add Match" ng-click="toggleAddMatch()">
+        <ng-md-icon icon="add" size="24px"></ng-md-icon>
+        <md-tooltip>
+          Add a Match
+        </md-tooltip>
+      </md-button> -->
+    </md-data-table-toolbar>
 
-  
+    <md-data-table-container>
+      <table md-data-table class="md-primary" md-progress="deferred">
+        <thead md-order="query.order" md-trigger="onorderchange">
+          <tr>
+            <th order-by="date" name="Date" unit=""></th>
+            <th order-by="player1" name="Player 1"></th>
+            <th numeric order-by="player1pts" name="Player 1 Pts"></th>
+            <th order-by="player2" name="Player 2"></th>
+            <th numeric order-by="player2pts" name="Player 2 Pts"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+            <td>{{ row.date | date:"medium" }}</td>
+            <td>{{ row.player1 | userName }}</td>
+            <td>{{ row.player1pts }}</td>
+            <td>{{ row.player2 | userName}}</td>
+            <td>{{row.player2pts}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{ displayedCollection.length }}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+</md-content>

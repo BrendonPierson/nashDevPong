@@ -19,12 +19,13 @@ app.controller("NavCtrl",
 
     var users = $firebaseArray(ref.child('users'));
   
-
-    // var doublesTeams = $firebaseArray(ref.child('doublesTeams'));
-    // doublesTeams.$loaded().then(function(){
-    //   for (var i = doublesTeams.length - 1; i >= 0; i--) {
-    //     doublesTeams[i].league = "-K1OjNXM8Q8WzQ0OrtIx";
-    //     doublesTeams.$save(i);
+    /////////// Use this to manually manipulate firebase data //////////
+    // var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
+    // singlesMatches.$loaded().then(function(){
+    //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
+    //     singlesMatches[i].player1Rating = 1300;
+    //     singlesMatches[i].player2Rating = 1300;
+    //     singlesMatches.$save(i);
     //   };
     // });
 

@@ -7,6 +7,44 @@ app.controller("UserStatsCtrl",
     // $scope.userId = $routeParams.id;
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
+
+    // Table Logic
+    $scope.query = {
+      order: '-date',
+      limit: 5,
+      page: 1
+    };
+    
+    $scope.onpagechange = function(page, limit) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+    
+    $scope.onorderchange = function(order) {
+      var deferred = $q.defer();
+      
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
+
+    var allSinglesMatches = $firebaseArray(ref.child('singlesMatches'));
+    $scope.displayedCollection = [];
+    allSinglesMatches.$loaded().then(function(){
+      for (var i = allSinglesMatches.length - 1; i >= 0; i--) {
+        if(_.chain(allSinglesMatches[i]).values().contains($routeParams.id).value()){
+          $scope.displayedCollection[$scope.displayedCollection.length] = allSinglesMatches[i];
+        }
+      };
+      console.log("singlesMatches", $scope.displayedCollection);
+    });
     
     ref.child("users/" + $routeParams.id).on('value', function(snapshot){
       $scope.user = snapshot.val();
@@ -42,7 +80,5 @@ app.controller("UserStatsCtrl",
       $scope.showNewLeague = false;
       $scope.newleague = {};
     };
-
-
 
 }]);

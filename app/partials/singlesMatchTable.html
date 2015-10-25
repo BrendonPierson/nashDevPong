@@ -4,7 +4,7 @@
     
     <div layout layout-sm="column">
       <md-input-container>
-        <label>{{ user.username }} Vs. </label>
+        <label>{{ username }} Vs. </label>
       </md-input-container>
       <md-input-container flex>
         <label>Opponent</label>
@@ -61,7 +61,7 @@
             <td>{{ row.player1 | userName }}</td>
             <td>{{ row.player1pts }}</td>
             <td>{{ row.player2 | userName}}</td>
-            <td>{{row.player2pts}}</td>
+            <td>{{ row.player2pts }}</td>
           </tr>
         </tbody>
       </table>

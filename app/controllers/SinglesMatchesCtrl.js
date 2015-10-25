@@ -13,7 +13,12 @@ app.controller("SinglesMatchesCtrl",
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
-    $scope.user = ref.getAuth().github;
+    $scope.username = ref.getAuth().github.username;
+
+    var user;
+    ref.child("users/" + ref.getAuth().uid).on('value', function(snapshot){
+      user = snapshot.val();
+    });
 
     console.log("scope.user", $scope.user);
 
@@ -33,11 +38,14 @@ app.controller("SinglesMatchesCtrl",
     $scope.addMatch = function(){
       $scope.newMatch.date = Date.now();
       $scope.newMatch.player1 = ref.getAuth().uid;
+      $scope.newMatch.player1Rating = user.eloRating;
+      $scope.newMatch.player2Rating = _.find($scope.users, 'uid', $scope.newMatch.player2).eloRating;
       $scope.newMatch.league = currentLeague;
+      $scope.newMatch.winMargin = Math.abs($scope.newMatch.player1pts - $scope.newMatch.player2pts);
       $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
         var id = ref.key();
         console.log("added record with id " + id); // returns location in the array
-        updateRanks($scope.newMatch);
+        // updateRanks($scope.newMatch);
         $scope.displayAddMatch = false;
         $scope.newMatch = {};   
       });   

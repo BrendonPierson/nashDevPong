@@ -7,9 +7,13 @@ app.controller("DoublesMatchesCtrl",
   "league",
   "eloTeam",
   "AddMatchStats",
-  function($scope, $log, $q, $timeout, $firebaseArray, league, eloTeam, addMatchStats) {
+  "teamName",
+  function($scope, $log, $q, $timeout, $firebaseArray, league, 
+    eloTeam, addMatchStats, teamName) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
+
+    $scope.doubles = $firebaseArray(ref.child('doublesTeams'));
 
     $scope.title="Doubles Matches";
 
@@ -38,43 +42,49 @@ app.controller("DoublesMatchesCtrl",
       $scope.newMatch.date = Date.now();
       $scope.newMatch.t1player1 = ref.getAuth().uid;
       $scope.newMatch.league = currentLeague;
-
-      $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
-        var id = ref.key();
-        console.log("added record with id " + id); // returns location in the array
-        updateRanks($scope.newMatch);
-        $scope.displayAddMatch = false;
-        $scope.newMatch = {};   
-      });   
+      updateRanks($scope.newMatch);
     };
 
     function updateRanks(match){
-      // Logic to prevent doubles of the same pair
-      var team1uid;
-      var team2uid;
-      if (match.t1player1 < match.t1player2){
-        team1uid = match.t1player1 + "-" + match.t1player2;
-      } else {
-        team1uid =  match.t1player2 + "-" + match.t1player1;
-      }
-      if (match.t2player1 < match.t2player2){
-        team2uid = match.t2player1 + "-" + match.t2player2;
-      } else {
-        team2uid =  match.t2player2 + "-" + match.t2player1;
-      }
+      // promise returns an array with team1uid and team2uid's
+      var promise = teamName(match);
+      promise.then(function(teamsArr) {
+        var team1uid = teamsArr[0];
+        var team2uid = teamsArr[1];
 
-      ref.child('doublesTeams').child(team1uid).child('teamUid').set(team1uid);
-      ref.child('doublesTeams').child(team2uid).child('teamUid').set(team2uid);
+        match.winMargin = Math.abs(match.t1score - match.t2score);
 
-      if(match.t1score > match.t2score){
-        eloTeam(team1uid, team2uid);
-        addMatchStats.pushResults('doublesTeams', team1uid, currentLeague, team2uid);
-        addMatchStats.incrementCounts('doublesTeams', match, team1uid, team2uid, currentLeague, false);
-      } else {
-        eloTeam(team2uid, team1uid);
-        addMatchStats.pushResults('doublesTeams', team2uid, currentLeague, team1uid);
-        addMatchStats.incrementCounts('doublesTeams', match, team2uid, team1uid, currentLeague, false);
-      }
+//////////// need to figure out case where it is a new team
+        match.team1Rating = _.find($scope.doubles, 'teamUid', team1uid).eloRating;
+        match.team2Rating = _.find($scope.doubles, 'teamUid', team2uid).eloRating;
+
+        if(typeof match.team1Rating === "undefined"){
+          match.team1Rating = 1300;
+        }
+        if(typeof match.team2Rating === "undefined"){
+          match.team2Rating = 1300;
+        }
+
+        if(match.t1score > match.t2score){
+          eloTeam(team1uid, team2uid);
+          addMatchStats.pushResults('doublesTeams', team1uid, currentLeague, team2uid);
+          addMatchStats.incrementCounts('doublesTeams', match, team1uid, team2uid, currentLeague, false);
+        } else {
+          eloTeam(team2uid, team1uid);
+          addMatchStats.pushResults('doublesTeams', team2uid, currentLeague, team1uid);
+          addMatchStats.incrementCounts('doublesTeams', match, team2uid, team1uid, currentLeague, false);
+        }
+        console.log("match", match);
+        $scope.displayedCollection.$add(match).then(function(ref) {
+          var id = ref.key();
+          console.log("added record with id " + id); // returns location in the array
+          $scope.displayAddMatch = false;
+          $scope.newMatch = {};   
+        });  
+
+      }, function(reason) {
+        alert('Failed: ' + reason);
+      });
     }
 
     $scope.displayAddMatch = false;
