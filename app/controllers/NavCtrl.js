@@ -19,6 +19,13 @@ app.controller("NavCtrl",
 
     var users = $firebaseArray(ref.child('users'));
 
+    // users.$loaded().then(function(){
+    //   for (var i = users.length - 1; i >= 0; i--) {
+    //     users[i].eloRating = 1300;
+    //     users.$save(i);
+    //   };
+    // });
+
     $log.log("authData: ", $scope.auth);
 
     $scope.login = function(){
@@ -53,6 +60,7 @@ app.controller("NavCtrl",
       newUser.displayName = data.github.displayName;
       newUser.userName = data.github.username;
       newUser.uid = data.uid;
+      newUser.eloRating = 1300;
       newUser.wins = [];
       newUser.losses = [];
       newUser.winNum = 0;

@@ -127,7 +127,7 @@ app.controller("DoublesMatchesCtrl",
     //Table Logic 
       $scope.query = {
     order: '-date',
-    limit: 20,
+    limit: 5,
     page: 1
   };
   
