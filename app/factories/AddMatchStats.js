@@ -22,14 +22,18 @@ app.factory("AddMatchStats", [
         ref.child(child).child(lossId).child(currentLeague).child("losses").push(winId);
         ref.child(child).child(lossId).child("losses").push(winId);
       },
-      incrementCounts: function(child, match, winner, loser, league){
+      incrementCounts: function(child, match, winner, loser, league, convertIds){
         // increment the wins or losses for user and current league
-        var winnerId = match[winner];
-        var loserId = match[loser];
-        ref.child('users').child(winnerId).child('winNum').transaction(transactCallback);
-        ref.child('users').child(winnerId).child(league).child('winNum').transaction(transactCallback);
-        ref.child('users').child(loserId).child('lossNum').transaction(transactCallback);
-        ref.child('users').child(loserId).child(league).child('lossNum').transaction(transactCallback);
+        var winnerId = winner;
+        var loserId = loser;
+        if(convertIds){
+          winnerId = match[winner];
+          loserId = match[loser];
+        }
+        ref.child(child).child(winnerId).child('winNum').transaction(transactCallback);
+        ref.child(child).child(winnerId).child(league).child('winNum').transaction(transactCallback);
+        ref.child(child).child(loserId).child('lossNum').transaction(transactCallback);
+        ref.child(child).child(loserId).child(league).child('lossNum').transaction(transactCallback);
       }
     };
   }

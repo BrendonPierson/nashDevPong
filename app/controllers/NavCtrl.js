@@ -21,10 +21,9 @@ app.controller("NavCtrl",
   
 
     // var doublesTeams = $firebaseArray(ref.child('doublesTeams'));
-
     // doublesTeams.$loaded().then(function(){
     //   for (var i = doublesTeams.length - 1; i >= 0; i--) {
-    //     doublesTeams[i].eloRating = 1300;
+    //     doublesTeams[i].league = "-K1OjNXM8Q8WzQ0OrtIx";
     //     doublesTeams.$save(i);
     //   };
     // });

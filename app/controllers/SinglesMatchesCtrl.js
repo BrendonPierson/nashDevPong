@@ -7,7 +7,7 @@ app.controller("SinglesMatchesCtrl",
   "league",
   "elo",
   "AddMatchStats",
-  function($scope, $log, $q, $timeout, $firebaseArray, league, elo, AddMatchStats) {
+  function($scope, $log, $q, $timeout, $firebaseArray, league, elo, addMatchStats) {
     // Initialize newMatch 
     $scope.newMatch = {};
 
@@ -56,12 +56,12 @@ app.controller("SinglesMatchesCtrl",
     function updateRanks(match){
       if(match.player1pts > match.player2pts){
         elo(match.player1, match.player2);
-        AddMatchStats.pushResults('users', match.player1, currentLeague, match.player2);
-        AddMatchStats.incrementCounts('users', match, "player1", "player2", currentLeague);
+        addMatchStats.pushResults('users', match.player1, currentLeague, match.player2);
+        addMatchStats.incrementCounts('users', match, "player1", "player2", currentLeague, true);
       } else {
         elo(match.player2, match.player1);
-        AddMatchStats.pushResults('users', match.player2, currentLeague, match.player1);
-        AddMatchStats.incrementCounts('users', match, "player2", "player1", currentLeague);
+        addMatchStats.pushResults('users', match.player2, currentLeague, match.player1);
+        addMatchStats.incrementCounts('users', match, "player2", "player1", currentLeague, true);
       }
     }
     
