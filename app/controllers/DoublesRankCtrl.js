@@ -25,46 +25,41 @@ app.controller("DoublesRankCtrl",
     function loadLeagueTeams(league){
       var teams = $firebaseArray(ref.child('doublesTeams').orderByChild('league').equalTo(league));
       teams.$loaded().then(function(teams){
-        $log.log("teams", teams);
+
+        teams = _.sortByOrder(teams, ['eloRating'], ['desc']);
+
         for(var i = 0; i < teams.length; i++){
-          $log.log("teams[i]", teams[i]);
+          teams[i].rank = i + 1;
           teams[i].winPercent = (teams[i].winNum / (teams[i].winNum + teams[i].lossNum));
         };
         $scope.displayedCollection = teams;
-        $scope.displayedCollection = _.sortBy(teams,function(team){
-          return -(team.winNum / team.lossNum);
-        });
       });
     }
 
-      $scope.query = {
-        order: '-winPercent',
-        limit: 5,
-        page: 1
-      };
+    $scope.query = {
+      order: '-eloRating',
+      limit: 5,
+      page: 1
+    };
+    
+    $scope.onpagechange = function(page, limit) {
+      var deferred = $q.defer();
       
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
       
-      $scope.onpagechange = function(page, limit) {
-        var deferred = $q.defer();
-        
-        $timeout(function () {
-          deferred.resolve();
-        }, 2000);
-        
-        return deferred.promise;
-      };
+      return deferred.promise;
+    };
+    
+    $scope.onorderchange = function(order) {
+      var deferred = $q.defer();
       
-      $scope.onorderchange = function(order) {
-        var deferred = $q.defer();
-        
-        $timeout(function () {
-          deferred.resolve();
-        }, 2000);
-        
-        return deferred.promise;
-      };
-
-
-
+      $timeout(function () {
+        deferred.resolve();
+      }, 2000);
+      
+      return deferred.promise;
+    };
   }
 ]);

@@ -27,18 +27,18 @@ app.controller("SinglesRankCtrl",
       var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
       users.$loaded().then(function(users){
         console.log("users", users);
+        users = _.sortByOrder(users, ['eloRating'], ['desc']);
         for (var i = users.length - 1; i >= 0; i--) {
           users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
+          users[i].rank = i + 1;
         };
-        $scope.displayedCollection = _.sortBy(users,function(user){
-          return -(user.winNum / user.lossNum);
-        });
+        $scope.displayedCollection = users;
       });
     }
 
 
     $scope.query = {
-      order: '-winPercent',
+      order: '-eloRating',
       limit: 5,
       page: 1
     };

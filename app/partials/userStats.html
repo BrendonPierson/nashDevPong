@@ -12,7 +12,8 @@
         <h3>Total Wins: {{ user.winNum }}</h3>
         <h3>Total Losses: {{ user.lossNum }}</h3>
         <h3>Win Percentage: {{ (user.winNum / (user.winNum + user.lossNum)) | percent:2 }}</h3>
-        <p>Current League: {{ user.league | leagueFilter }}</p>
+        <h3>Rating: {{ user.eloRating }}</h3>
+       <!--  <p>Current League: {{ user.league | leagueFilter }}</p>
         <form ng-show="showNewLeague" ng-submit="addNewLeague()">
           <md-input-container>
             <label>New League</label>
@@ -57,7 +58,7 @@
               New League
             </md-tooltip>
           </ng-md-icon>
-        </md-button>
+        </md-button> -->
       </md-card-content>
     </md-card>
   </div>

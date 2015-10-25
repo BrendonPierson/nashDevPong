@@ -8,20 +8,22 @@
       <table md-data-table class="md-primary" md-progress="deferred">
         <thead md-order="query.order" md-trigger="onorderchange">
           <tr>
-            <th flex numeric order-by="$index" name="Rank" unit=""></th>
-            <th flex order-by="teamUid" name="Team"></th>
-            <th flex numeric order-by="winNum" name="Wins"></th>
-            <th flex numeric order-by="lossNum" name="Losses"></th>
-            <th flex numeric order-by="winPercent" name="Win Percentage"></th>
+            <th numeric order-by="rank" name="Rank" unit=""></th>
+            <th order-by="teamUid" name="Team"></th>
+            <th numeric order-by="winNum" name="Wins"></th>
+            <th numeric order-by="lossNum" name="Losses"></th>
+            <th numeric order-by="winPercent" name="Win Percentage"></th>
+            <th numeric order-by="eloRating" name="Rating"></th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
-            <td flex>{{ $index + 1 }}</td>
-            <td flex>{{ row.teamUid | teamMembers }}</td>
-            <td flex>{{ row.winNum }}</td>
-            <td flex>{{ row.lossNum }}</td>
-            <td flex>{{ row.winPercent | percent:2 }}</td>
+            <td>{{ row.rank }}</td>
+            <td>{{ row.teamUid | teamMembers }}</td>
+            <td>{{ row.winNum }}</td>
+            <td>{{ row.lossNum }}</td>
+            <td>{{ row.winPercent | percent:2 }}</td>
+            <td>{{ row.eloRating }}</td>
           </tr>
         </tbody>
       </table>
