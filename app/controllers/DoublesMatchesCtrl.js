@@ -5,7 +5,8 @@ app.controller("DoublesMatchesCtrl",
   "$timeout",
   "$firebaseArray",
   "league",
-  function($scope, $log, $q, $timeout, $firebaseArray, league) {
+  "eloTeam",
+  function($scope, $log, $q, $timeout, $firebaseArray, league, eloTeam) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
@@ -74,13 +75,23 @@ app.controller("DoublesMatchesCtrl",
       if(match.t1score > match.t2score){
         addWin(match,team1uid, currentLeague);
         addLoss(match,team2uid, currentLeague);
-        ref.child('doublesTeams').child(team1uid + "-winNum").push(team2uid);
-        ref.child('doublesTeams').child(team2uid + "-lossNum").push(team1uid);
+
+        eloTeam(team1uid, team2uid);
+
+        ref.child('doublesTeams').child(team1uid).child(currentLeague).child("wins").push(team2uid);
+        ref.child('doublesTeams').child(team2uid).child(currentLeague).child("losses").push(team1uid);
+        ref.child('doublesTeams').child(team1uid).child("wins").push(team2uid);
+        ref.child('doublesTeams').child(team2uid).child("losses").push(team1uid);
       } else {
         addWin(match,team2uid, currentLeague);
         addLoss(match,team1uid, currentLeague);
-        ref.child('doublesTeams').child(team1uid + "-lossNum").push(team2uid);
-        ref.child('doublesTeams').child(team2uid + "-winNum").push(team1uid);
+
+        eloTeam(team2uid, team1uid);
+
+        ref.child('doublesTeams').child(team1uid).child(currentLeague).child("losses").push(team2uid);
+        ref.child('doublesTeams').child(team2uid).child(currentLeague).child("wins").push(team1uid);
+        ref.child('doublesTeams').child(team1uid).child("losses").push(team2uid);
+        ref.child('doublesTeams').child(team2uid).child("wins").push(team1uid);
       }
     }
 

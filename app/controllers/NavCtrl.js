@@ -18,11 +18,14 @@ app.controller("NavCtrl",
     });
 
     var users = $firebaseArray(ref.child('users'));
+  
 
-    // users.$loaded().then(function(){
-    //   for (var i = users.length - 1; i >= 0; i--) {
-    //     users[i].eloRating = 1300;
-    //     users.$save(i);
+    // var doublesTeams = $firebaseArray(ref.child('doublesTeams'));
+
+    // doublesTeams.$loaded().then(function(){
+    //   for (var i = doublesTeams.length - 1; i >= 0; i--) {
+    //     doublesTeams[i].eloRating = 1300;
+    //     doublesTeams.$save(i);
     //   };
     // });
 
@@ -65,6 +68,7 @@ app.controller("NavCtrl",
       newUser.losses = [];
       newUser.winNum = 0;
       newUser.lossNum = 0;
+      newUser.league = "-K1OjNXM8Q8WzQ0OrtIx";
       newUser.profileImageUrl = data.github.profileImageURL;
       newUser.dateAdded = Date.now();
 
