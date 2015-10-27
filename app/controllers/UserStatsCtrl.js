@@ -45,6 +45,21 @@ app.controller("UserStatsCtrl",
       };
       console.log("singlesMatches", $scope.displayedCollection);
     });
+
+
+    $scope.displayed2Collection = [];
+    var allDoublesMatches = $firebaseArray(ref.child('doublesMatches'));
+    $scope.displayedCollection = [];
+    allDoublesMatches.$loaded().then(function(){
+      for (var i = allDoublesMatches.length - 1; i >= 0; i--) {
+        if(_.chain(allDoublesMatches[i]).values().contains($routeParams.id).value()){
+          $scope.displayed2Collection[$scope.displayed2Collection.length] = allDoublesMatches[i];
+        }
+      };
+      console.log("doublesMatches", $scope.displayedC2ollection);
+    });
+
+
     
     ref.child("users/" + $routeParams.id).on('value', function(snapshot){
       $scope.user = snapshot.val();

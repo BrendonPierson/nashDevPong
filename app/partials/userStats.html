@@ -2,17 +2,20 @@
   <div layout-align="center center">
     <h1>{{ user.displayName }} </h1>
     <img class="profile-image" ng-src="{{ user.profileImageUrl }}" alt="Profile Image" width="300px">
-    <h3>aka {{ user.userName }} </h3>
-    <p>Joined {{ user.dateAdded | date }}</p>
   </div>
   <div flex id="stats">
     <md-card layout-align="center center">
       <md-card-content ng-cloak>
         <h1>Stats</h1>
+        <h3>aka {{ user.userName }} </h3>
+        <p>Joined {{ user.dateAdded | date }}</p>
         <h3>Total Wins: {{ user.winNum }}</h3>
         <h3>Total Losses: {{ user.lossNum }}</h3>
         <h3>Win Percentage: {{ (user.winNum / (user.winNum + user.lossNum)) | percent:2 }}</h3>
-        <h3>Rating: {{ user.eloRating }}</h3>
+        <h3>Rating: {{ user.eloRating | number:0 }}</h3>
+
+<!-- Commented out forms to view, change, and add a league -->
+
        <!--  <p>Current League: {{ user.league | leagueFilter }}</p>
         <form ng-show="showNewLeague" ng-submit="addNewLeague()">
           <md-input-container>
@@ -67,13 +70,7 @@
 <md-content laout="column" flex>
   <md-card>
     <md-data-table-toolbar>
-      <h1>Recent Matches</h1>
-      <!-- <md-button class="md-fab" aria-label="Add Match" ng-click="toggleAddMatch()">
-        <ng-md-icon icon="add" size="24px"></ng-md-icon>
-        <md-tooltip>
-          Add a Match
-        </md-tooltip>
-      </md-button> -->
+      <h1>Recent Singles Matches</h1>
     </md-data-table-toolbar>
 
     <md-data-table-container>
@@ -82,8 +79,10 @@
           <tr>
             <th order-by="date" name="Date" unit=""></th>
             <th order-by="player1" name="Player 1"></th>
+            <th numeric order-by="player1Rating" name="Player 1 Rating"></th>
             <th numeric order-by="player1pts" name="Player 1 Pts"></th>
             <th order-by="player2" name="Player 2"></th>
+            <th numeric order-by="player2Rating" name="Player 2 Rating"></th>
             <th numeric order-by="player2pts" name="Player 2 Pts"></th>
           </tr>
         </thead>
@@ -91,14 +90,53 @@
           <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
             <td>{{ row.date | date:"medium" }}</td>
             <td>{{ row.player1 | userName }}</td>
+            <td>{{ row.player1Rating | number:0 }}</td>
             <td>{{ row.player1pts }}</td>
             <td>{{ row.player2 | userName}}</td>
-            <td>{{row.player2pts}}</td>
+            <td>{{ row.player2Rating | number:0}}</td>
+            <td>{{ row.player2pts }}</td>
           </tr>
         </tbody>
       </table>
     </md-data-table-container>
 
     <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{ displayedCollection.length }}" md-trigger="onpagechange"></md-data-table-pagination>
+  </md-card>
+</md-content>
+
+<md-content laout="column" flex>
+  <md-card>
+    <md-data-table-toolbar>
+      <h1>Recent Doubles Matches</h1>
+    </md-data-table-toolbar>
+
+    <md-data-table-container>
+      <table md-data-table class="md-primary" md-progress="deferred">
+        <thead md-order="query.order" md-trigger="onorderchange">
+          <tr>
+            <th order-by="date" name="Date" unit=""></th>
+            <th order-by="t1player1" name="Team 1"></th>
+            <th numeric order-by="team1Rating" name="Team 1 Rating"></th>
+            <th numeric order-by="t1score" name="Team 1 Pts"></th>
+            <th order-by="t2player1" name="Team 2"></th>
+            <th numeric order-by="team1Rating" name="Team 2 Rating"></th>
+            <th numeric order-by="t2score" name="Team 2 Pts"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in displayed2Collection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+            <td>{{ row.date | date : "medium" }}</td>
+            <td>{{ row.t1player1 | userName }} &amp; {{ row.t1player2 | userName }}</td>
+            <td>{{ row.team1Rating | number:0 }}</td>
+            <td>{{ row.t1score }}</td>
+            <td>{{ row.t2player1 | userName }} &amp; {{ row.t2player2 | userName }}</td>
+            <td>{{ row.team2Rating | number:0 }}</td>
+            <td>{{ row.t2score }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+
+    <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{displayedCollection.length}}" md-trigger="onpagechange"></md-data-table-pagination>
   </md-card>
 </md-content>
