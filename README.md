@@ -1,7 +1,7 @@
 # nashDevPong
 This web app allows users to record local, friendly ping pong match results.  A rating algorithm based on the [ELO system](https://en.wikipedia.org/wiki/Elo_rating_system) is used to rank players.  To facilitate user signup, OAuth with github is the signup and login method.  Data is structured to allow matches and ratings to be separated into specific leagues if user growth requires it.
 
-Live Demo
+[Live Demo](https://nashdev-pong.firebaseapp.com)
 
 ###Core Technologies Used:
 1. [Angularjs](https://angularjs.org/)
