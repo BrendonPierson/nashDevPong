@@ -1,9 +1,11 @@
 app.controller("UserStatsCtrl", 
   ["$scope",
   "$log",
+  "$q",
+  "$timeout",
   "$routeParams",
   "$firebaseArray",
-  function($scope, $log, $routeParams, $firebaseArray) {
+  function($scope, $log, $q, $timeout, $routeParams, $firebaseArray) {
     // $scope.userId = $routeParams.id;
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
