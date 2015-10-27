@@ -60,11 +60,11 @@
         <tbody>
           <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
             <td>{{ row.date | date:"medium" }}</td>
-            <td>{{ row.player1 | userName }}</td>
+            <td ng-click="userStatsPage(row.player1)">{{ row.player1 | userName }}</td>
             <td>{{ row.player1Rating | number:0 }}</td>
             <td>{{ row.player1pts }}</td>
-            <td>{{ row.player2 | userName}}</td>
-            <td>{{ row.player2Rating | number:0}}</td>
+            <td ng-click="userStatsPage(row.player2)">{{ row.player2 | userName}}</td>
+            <td>{{ row.player2Rating | number:0 }}</td>
             <td>{{ row.player2pts }}</td>
           </tr>
         </tbody>

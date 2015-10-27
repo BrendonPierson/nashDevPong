@@ -2,12 +2,13 @@ app.controller("SinglesMatchesCtrl",
   ["$scope", 
   "$log",
   "$q",
+  "$location",
   "$timeout",
   "$firebaseArray",
   "league",
   "elo",
   "AddMatchStats",
-  function($scope, $log, $q, $timeout, $firebaseArray, league, elo, addMatchStats) {
+  function($scope, $log, $q, $location, $timeout, $firebaseArray, league, elo, addMatchStats) {
     // Initialize newMatch 
     $scope.newMatch = {};
 
@@ -19,6 +20,10 @@ app.controller("SinglesMatchesCtrl",
     ref.child("users/" + ref.getAuth().uid).on('value', function(snapshot){
       user = snapshot.val();
     });
+
+    $scope.userStatsPage = function(user){
+      $location.path("/stats/" + user);
+    };
 
     console.log("scope.user", $scope.user);
 
