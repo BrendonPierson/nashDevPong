@@ -26,8 +26,13 @@ app.controller("SinglesRankCtrl",
     function loadLeagueUsers(league){
       var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
       users.$loaded().then(function(users){
-        console.log("users", users);
+        // console.log("users", users);
+        // Need to sort for adding rank number
         users = _.sortByOrder(users, ['eloRating'], ['desc']);
+        // Remove users with no games
+        users = _.filter(users, function(user){
+          return (user.winNum > 0 || user.lossNum > 0)
+        });
         for (var i = users.length - 1; i >= 0; i--) {
           users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
           users[i].rank = i + 1;

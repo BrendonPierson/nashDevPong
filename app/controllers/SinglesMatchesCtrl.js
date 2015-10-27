@@ -25,8 +25,6 @@ app.controller("SinglesMatchesCtrl",
       $location.path("/stats/" + user);
     };
 
-    console.log("scope.user", $scope.user);
-
     $scope.users = $firebaseArray(ref.child('users'));
 
     // Promise gets the users current league
@@ -84,7 +82,6 @@ app.controller("SinglesMatchesCtrl",
       limit: 5,
       page: 1
     };
-    
     
     $scope.onpagechange = function(page, limit) {
       var deferred = $q.defer();

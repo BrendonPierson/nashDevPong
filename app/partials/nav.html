@@ -60,8 +60,56 @@
         <h3>Rankings</h3>
         <md-button ng-href="#/singlesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Singles</md-button>
         <md-button ng-href="#/doublesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
-        <!-- <md-button ng-href="#/alltimesingles" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">All Time Singles</md-button>
-        <md-button ng-href="#/alltimedoubles" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">All Time Doubles</md-button> -->
+
+        <!-- forms to view, change, and add a league -->
+        <p>Current League: {{ currentLeague.nickName }}</p>
+        <form ng-show="showNewLeague" ng-submit="addNewLeague()">
+          <md-input-container>
+            <label>New League</label>
+            <div layout="column">
+              <md-input-container flex>
+                <label>League name</label>
+                <input ng-model="newleague.name">
+              </md-input-container>
+              <md-input-container flex>
+                <label>nickName</label>
+                <input ng-model="newleague.nickName">
+              </md-input-container>
+              <md-input-container flex>
+                <label>Location</label>
+                <input ng-model="newleague.location">
+              </md-input-container>
+            </div>
+          </md-input-container>
+          <md-button class="md-raised md-primary">Submit</md-button>
+        </form>
+        <form ng-show="showChangeLeague" ng-submit="changeUserLeague()">
+          <md-input-container>
+            <label>League</label>
+            <md-select ng-model="user.league">
+              <md-option ng-repeat="league in leagues" value="{{ league.uid }}">
+                {{ league.nickName }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-button class="md-raised md-primary">Submit</md-button>
+        </form>
+        <span flex></span>
+        <md-button class="md-fab">
+          <ng-md-icon icon="find_replace" size="24px" ng-click="toggleChangeLeague()">
+            <md-tooltip>
+              Change League
+            </md-tooltip>
+          </ng-md-icon>
+        </md-button>
+        <md-button class="md-fab">
+          <ng-md-icon icon="group_add" size="24px" ng-click="toggleNewLeague()">
+            <md-tooltip>
+              New League
+            </md-tooltip>
+          </ng-md-icon>
+        </md-button>
+      <span flex></span>
       </md-content>
     </md-sidenav>
   </section>

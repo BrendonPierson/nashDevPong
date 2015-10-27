@@ -7,7 +7,6 @@ app.controller("UserStatsCtrl",
   "$firebaseArray",
   function($scope, $log, $q, $timeout, $routeParams, $firebaseArray) {
     // $scope.userId = $routeParams.id;
-
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
     // Table Logic
@@ -58,10 +57,8 @@ app.controller("UserStatsCtrl",
           $scope.displayed2Collection[$scope.displayed2Collection.length] = allDoublesMatches[i];
         }
       };
-      console.log("doublesMatches", $scope.displayedC2ollection);
+      console.log("doublesMatches", $scope.displayed2Collection);
     });
-
-
     
     ref.child("users/" + $routeParams.id).on('value', function(snapshot){
       $scope.user = snapshot.val();
@@ -80,22 +77,22 @@ app.controller("UserStatsCtrl",
 
     $scope.leagues = $firebaseArray(ref.child('leagues'));
 
-    $scope.changeUserLeague = function(){
-      ref.child('users/' + $routeParams.id + '/league').set($scope.user.league);
-      $scope.showChangeLeague = false;
-    };
+    // $scope.changeUserLeague = function(){
+    //   ref.child('users/' + $routeParams.id + '/league').set($scope.user.league);
+    //   $scope.showChangeLeague = false;
+    // };
 
-    $scope.newleague = {};
-    $scope.addNewLeague = function(){
-      $scope.newleague.createdBy = ref.getAuth().uid;
-      $scope.newleague.dateCreated = Date.now();
-      $log.log("newleague", $scope.newleague);
-      // Creating a var of the push allows the capture of the key 
-      var pushRef = ref.child('leagues').push($scope.newleague);
-      ref.child('leagues/' + pushRef.key() ).child('uid').set(pushRef.key());
-      ref.child('users/' + $routeParams.id + '/league').set(pushRef.key());
-      $scope.showNewLeague = false;
-      $scope.newleague = {};
-    };
+    // $scope.newleague = {};
+    // $scope.addNewLeague = function(){
+    //   $scope.newleague.createdBy = ref.getAuth().uid;
+    //   $scope.newleague.dateCreated = Date.now();
+    //   $log.log("newleague", $scope.newleague);
+    //   // Creating a var of the push allows the capture of the key 
+    //   var pushRef = ref.child('leagues').push($scope.newleague);
+    //   ref.child('leagues/' + pushRef.key() ).child('uid').set(pushRef.key());
+    //   ref.child('users/' + $routeParams.id + '/league').set(pushRef.key());
+    //   $scope.showNewLeague = false;
+    //   $scope.newleague = {};
+    // };
 
 }]);

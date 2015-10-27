@@ -6,8 +6,9 @@ app.controller("NavCtrl",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
+  "league",
   function($scope, $location, $log, $timeout, $mdSidenav, 
-    $firebaseAuth, $firebaseArray) {
+    $firebaseAuth, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -18,6 +19,46 @@ app.controller("NavCtrl",
     });
 
     var users = $firebaseArray(ref.child('users'));
+
+    users.$loaded().then(function(){
+      $scope.user = _.find(users, 'uid', ref.getAuth().uid);
+      console.log("scope.user", $scope.user);
+    });
+
+    var leagues = $firebaseArray(ref.child('leagues'));
+    leagues.$loaded().then(function(){
+      $scope.leagues = leagues;
+      $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
+      console.log("currentLeague", $scope.currentLeague);
+    });
+
+    $scope.showChangeLeague = false;
+    $scope.toggleChangeLeague = function(){
+      $scope.showChangeLeague = $scope.showChangeLeague ? false : true;
+    };
+
+    $scope.showNewLeague = false;
+    $scope.toggleNewLeague = function(){
+      $scope.showNewLeague = $scope.showNewLeague ? false : true;
+    };
+
+    $scope.changeUserLeague = function(){
+      ref.child('users/' + ref.getAuth().uid + '/league').set($scope.user.league);
+      $scope.showChangeLeague = false;
+    };
+
+    // $scope.newleague = {};
+    $scope.addNewLeague = function(){
+      $scope.newleague.createdBy = ref.getAuth().uid;
+      $scope.newleague.dateCreated = Date.now();
+      $log.log("newleague", $scope.newleague);
+      // Creating a var of the push allows the capture of the key 
+      var pushRef = ref.child('leagues').push($scope.newleague);
+      ref.child('leagues/' + pushRef.key() ).child('uid').set(pushRef.key());
+      ref.child('users/' + $scope.user.uid + '/league').set(pushRef.key());
+      $scope.showNewLeague = false;
+      $scope.newleague = {};
+    };
   
     /////////// Use this to manually manipulate firebase data //////////
     // var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
@@ -28,7 +69,6 @@ app.controller("NavCtrl",
     //     singlesMatches.$save(i);
     //   };
     // });
-
     $log.log("authData: ", $scope.auth);
 
     $scope.login = function(){
@@ -122,13 +162,11 @@ app.controller("NavCtrl",
           });
       };
     }
-
     $scope.close = function () {
       $mdSidenav('left').close()
         .then(function () {
           $log.debug("close LEFT is done");
         });
     };
-
 
 }]);

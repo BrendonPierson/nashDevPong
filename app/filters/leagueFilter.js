@@ -1,10 +1,14 @@
 app.filter('leagueFilter', [
-  "fb",
-  function(fb) {
-    var leagues = fb.getLeagueArr();
+  "$firebaseArray",
+  function($firebaseArray) {
+    var ref = new Firebase('https://nashdev-pong.firebaseio.com/');
+    var leagues = $firebaseArray(ref.child('leagues'));
 
     return function(uid) {
-      return _.find(leagues, 'uid', uid).nickName;
+      leagues.$loaded().then(function(){
+        console.log("leagueNickname", _.find(leagues, 'uid', uid).nickName);
+        return _.find(leagues, 'uid', uid).nickName;
+      });
     };
   }
 ]);
