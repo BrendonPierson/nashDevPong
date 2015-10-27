@@ -2,12 +2,13 @@ app.controller("NavCtrl",
   ["$scope", 
   "$location",
   "$log",
+  "$route",
   "$timeout",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
   "league",
-  function($scope, $location, $log, $timeout, $mdSidenav, 
+  function($scope, $location, $log, $route, $timeout, $mdSidenav, 
     $firebaseAuth, $firebaseArray, league) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
@@ -45,6 +46,7 @@ app.controller("NavCtrl",
     $scope.changeUserLeague = function(){
       ref.child('users/' + ref.getAuth().uid + '/league').set($scope.user.league);
       $scope.showChangeLeague = false;
+      $route.reload();
     };
 
     // $scope.newleague = {};
@@ -58,6 +60,7 @@ app.controller("NavCtrl",
       ref.child('users/' + $scope.user.uid + '/league').set(pushRef.key());
       $scope.showNewLeague = false;
       $scope.newleague = {};
+      $route.reload();
     };
   
     /////////// Use this to manually manipulate firebase data //////////
