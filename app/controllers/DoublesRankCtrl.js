@@ -9,7 +9,7 @@ app.controller("DoublesRankCtrl",
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
-    $scope.displayedCollection = [];
+    $scope.displayedCollection;
 
     // Promise gets the users current league
     var currentLeague = '';
@@ -25,7 +25,7 @@ app.controller("DoublesRankCtrl",
     function loadLeagueTeams(league){
       var teams = $firebaseArray(ref.child('doublesTeams').orderByChild('league').equalTo(league));
       teams.$loaded().then(function(teams){
-
+        $log.log('teams', teams);
         teams = _.sortByOrder(teams, ['eloRating'], ['desc']);
 
         for(var i = 0; i < teams.length; i++){

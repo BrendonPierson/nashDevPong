@@ -45,7 +45,7 @@ app.controller("SinglesMatchesCtrl",
       $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
         var id = ref.key();
         console.log("added record with id " + id); // returns location in the array
-        // updateRanks($scope.newMatch);
+        updateRanks($scope.newMatch);
         $scope.displayAddMatch = false;
         $scope.newMatch = {};   
       });   
@@ -73,7 +73,6 @@ app.controller("SinglesMatchesCtrl",
       }
     }
     
-
     // Table Logic
     $scope.query = {
       order: '-date',

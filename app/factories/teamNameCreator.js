@@ -3,7 +3,7 @@ app.factory("teamName", [
   function($q) {
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/")
 
-    return function(match){
+    return function(match, league){
       // perform some asynchronous operation, resolve or reject the promise when appropriate.
       return $q(function(resolve, reject) {
         var team1uid;
@@ -24,6 +24,8 @@ app.factory("teamName", [
 
         ref.child('doublesTeams').child(team1uid).child('teamUid').set(team1uid);
         ref.child('doublesTeams').child(team2uid).child('teamUid').set(team2uid);
+        ref.child('doublesTeams').child(team1uid).child('league').set(league);
+        ref.child('doublesTeams').child(team2uid).child('league').set(league);
 
         teamsArr[0] = team1uid;
         teamsArr[1] = team2uid;

@@ -41,20 +41,19 @@ app.controller("DoublesMatchesCtrl",
     $scope.addMatch = function(){
       $scope.newMatch.date = Date.now();
       $scope.newMatch.t1player1 = ref.getAuth().uid;
-      $scope.newMatch.league = currentLeague;
       updateRanks($scope.newMatch);
     };
 
     function updateRanks(match){
       // promise returns an array with team1uid and team2uid's
-      var promise = teamName(match);
+      var promise = teamName(match, currentLeague);
       promise.then(function(teamsArr) {
         var team1uid = teamsArr[0];
         var team2uid = teamsArr[1];
 
+        match.league = currentLeague;
         match.winMargin = Math.abs(match.t1score - match.t2score);
 
-//////////// need to figure out case where it is a new team
         match.team1Rating = _.find($scope.doubles, 'teamUid', team1uid).eloRating;
         match.team2Rating = _.find($scope.doubles, 'teamUid', team2uid).eloRating;
 

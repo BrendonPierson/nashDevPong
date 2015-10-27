@@ -61,8 +61,10 @@
           <tr>
             <th order-by="date" name="Date" unit=""></th>
             <th order-by="t1player1" name="Team 1"></th>
+            <th numeric order-by="team1Rating" name="Team 1 Rating"></th>
             <th numeric order-by="t1score" name="Team 1 Pts"></th>
             <th order-by="t2player1" name="Team 2"></th>
+            <th numeric order-by="team1Rating" name="Team 2 Rating"></th>
             <th numeric order-by="t2score" name="Team 2 Pts"></th>
           </tr>
         </thead>
@@ -70,8 +72,10 @@
           <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
             <td>{{ row.date | date : "medium" }}</td>
             <td>{{ row.t1player1 | userName }} &amp; {{ row.t1player2 | userName }}</td>
+            <td>{{ row.team1Rating | number:0 }}</td>
             <td>{{ row.t1score }}</td>
             <td>{{ row.t2player1 | userName }} &amp; {{ row.t2player2 | userName }}</td>
+            <td>{{ row.team2Rating | number:0 }}</td>
             <td>{{ row.t2score }}</td>
           </tr>
         </tbody>
