@@ -104,6 +104,7 @@ app.controller("NavCtrl",
     $scope.logout = function() {
       $firebaseAuth(ref).$unauth();
       $scope.auth = null;
+      $location.path("/home");
     };
     $scope.goHome = function(){
       $location.path('/home');
