@@ -1,14 +1,14 @@
 app.controller("SinglesMatchesCtrl", 
   ["$scope", 
   "$log",
-  "$q",
   "$location",
-  "$timeout",
   "$firebaseArray",
   "league",
   "elo",
   "AddMatchStats",
-  function($scope, $log, $q, $location, $timeout, $firebaseArray, league, elo, addMatchStats) {
+  "tableUI",
+  function($scope, $log, $location, $firebaseArray, 
+    league, elo, addMatchStats, tableUI) {
     // Initialize newMatch 
     $scope.newMatch = {};
 
@@ -76,31 +76,9 @@ app.controller("SinglesMatchesCtrl",
       }
     }
     
-    // Table Logic
-    $scope.query = {
-      order: '-date',
-      limit: 5,
-      page: 1
-    };
-    
-    $scope.onpagechange = function(page, limit) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
-    
-    $scope.onorderchange = function(order) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
+    //Table Logic 
+    $scope.query = tableUI.query;
+    $scope.onpagechange = tableUI.onpagechange;
+    $scope.onorderchange = tableUI.onorderchange;
 
 }]);

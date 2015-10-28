@@ -7,9 +7,9 @@ app.controller("NavCtrl",
   "$mdSidenav",
   "$firebaseAuth",
   "$firebaseArray",
-  "league",
+  "addNewUser",
   function($scope, $location, $log, $route, $timeout, $mdSidenav, 
-    $firebaseAuth, $firebaseArray, league) {
+    $firebaseAuth, $firebaseArray, newUser) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -17,6 +17,9 @@ app.controller("NavCtrl",
 
     $firebaseAuth(ref).$onAuth(function(authdata){
       $scope.auth = authdata;
+      if($scope.user){
+        $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
+      }
     });
 
     var users = $firebaseArray(ref.child('users'));
@@ -36,20 +39,23 @@ app.controller("NavCtrl",
     $scope.showChangeLeague = false;
     $scope.toggleChangeLeague = function(){
       $scope.showChangeLeague = $scope.showChangeLeague ? false : true;
+      $scope.showNewLeague = false;
     };
 
     $scope.showNewLeague = false;
     $scope.toggleNewLeague = function(){
       $scope.showNewLeague = $scope.showNewLeague ? false : true;
+      $scope.showChangeLeague = false;
     };
 
     $scope.changeUserLeague = function(){
       ref.child('users/' + ref.getAuth().uid + '/league').set($scope.user.league);
       $scope.showChangeLeague = false;
+      // The reload changes the data when the league changes
       $route.reload();
     };
 
-    // $scope.newleague = {};
+    $scope.newleague = {};
     $scope.addNewLeague = function(){
       $scope.newleague.createdBy = ref.getAuth().uid;
       $scope.newleague.dateCreated = Date.now();
@@ -75,61 +81,37 @@ app.controller("NavCtrl",
     $log.log("authData: ", $scope.auth);
 
     $scope.login = function(){
-      ref.authWithOAuthPopup("github", function(error, authData) { //1.firebase sends request for request token to github with client id and secret id
+      // Oauth login with github
+      ref.authWithOAuthPopup("github", function(error, authData) { 
         if (error) {
           $log.log("Login Failed!", error);
         } else {
           $log.log("Authenticated successfully with payload:", authData);
-          if(checkForUser(authData.uid)){
+          // Check for user, if they don't exist add them
+          if(newUser.checkForUser(authData.uid, users)){
             $log.log("user exists");
             $log.log("authdata", authData);
           } else {
             $log.log("new user");
-            addNewUser(authData);
+            newUser.add(authData);
           }
         }
       });
       // $location.path("/login");
     };
 
+    // Nav bar links
     $scope.logout = function() {
       $firebaseAuth(ref).$unauth();
       $scope.auth = null;
     };
-
     $scope.goHome = function(){
       $location.path('/home');
     };
 
-    function addNewUser(data){
-      var newUser = {};
-      newUser.displayName = data.github.displayName;
-      newUser.userName = data.github.username;
-      newUser.uid = data.uid;
-      newUser.eloRating = 1300;
-      newUser.wins = [];
-      newUser.losses = [];
-      newUser.winNum = 0;
-      newUser.lossNum = 0;
-      newUser.league = "-K1OjNXM8Q8WzQ0OrtIx";
-      newUser.profileImageUrl = data.github.profileImageURL;
-      newUser.dateAdded = Date.now();
 
-      ref.child('users').child(newUser.uid).set(newUser);  
-    }
-
-
-    function checkForUser(uid){
-      if(_.find(users, 'uid', uid)){
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-
+    // Side nav logic
     $scope.toggleLeft = buildDelayedToggler('left');
-
     function debounce(func, wait, context) {
       var timer;
       return function debounced() {

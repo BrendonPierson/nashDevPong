@@ -1,15 +1,14 @@
 app.controller("DoublesMatchesCtrl", 
   ["$scope", 
   "$log",
-  "$q",
-  "$timeout",
   "$firebaseArray",
   "league",
   "eloTeam",
   "AddMatchStats",
   "teamName",
-  function($scope, $log, $q, $timeout, $firebaseArray, league, 
-    eloTeam, addMatchStats, teamName) {
+  "tableUI",
+  function($scope, $log, $firebaseArray, league, 
+    eloTeam, addMatchStats, teamName, tableUI) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
@@ -21,7 +20,7 @@ app.controller("DoublesMatchesCtrl",
 
     $scope.user = ref.getAuth().github;
 
-    console.log("scope.user", $scope.user);
+    $log.log("scope.user", $scope.user);
 
     // Promise gets the users current league
     var currentLeague = '';
@@ -92,32 +91,8 @@ app.controller("DoublesMatchesCtrl",
     };
 
     //Table Logic 
-    $scope.query = {
-      order: '-date',
-      limit: 5,
-      page: 1
-    };
-  
-  
-    $scope.onpagechange = function(page, limit) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
-  
-    $scope.onorderchange = function(order) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
-
+    $scope.query = tableUI.query;
+    $scope.onpagechange = tableUI.onpagechange;
+    $scope.onorderchange = tableUI.onorderchange;
 
 }]);

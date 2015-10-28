@@ -77,22 +77,4 @@ app.controller("UserStatsCtrl",
 
     $scope.leagues = $firebaseArray(ref.child('leagues'));
 
-    // $scope.changeUserLeague = function(){
-    //   ref.child('users/' + $routeParams.id + '/league').set($scope.user.league);
-    //   $scope.showChangeLeague = false;
-    // };
-
-    // $scope.newleague = {};
-    // $scope.addNewLeague = function(){
-    //   $scope.newleague.createdBy = ref.getAuth().uid;
-    //   $scope.newleague.dateCreated = Date.now();
-    //   $log.log("newleague", $scope.newleague);
-    //   // Creating a var of the push allows the capture of the key 
-    //   var pushRef = ref.child('leagues').push($scope.newleague);
-    //   ref.child('leagues/' + pushRef.key() ).child('uid').set(pushRef.key());
-    //   ref.child('users/' + $routeParams.id + '/league').set(pushRef.key());
-    //   $scope.showNewLeague = false;
-    //   $scope.newleague = {};
-    // };
-
 }]);

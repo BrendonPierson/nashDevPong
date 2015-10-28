@@ -62,10 +62,9 @@
         <md-button ng-href="#/doublesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
 
         <!-- forms to view, change, and add a league -->
-        <p>Current League: {{ currentLeague.nickName }}</p>
+        <p ng-show="auth">Current League: {{ currentLeague.nickName }}</p>
         <form ng-show="showNewLeague" ng-submit="addNewLeague()">
           <md-input-container>
-            <label>New League</label>
             <div layout="column">
               <md-input-container flex>
                 <label>League name</label>
@@ -95,14 +94,14 @@
           <md-button class="md-raised md-primary">Submit</md-button>
         </form>
         <span flex></span>
-        <md-button class="md-fab">
+        <md-button class="md-fab" ng-show="auth">
           <ng-md-icon icon="find_replace" size="24px" ng-click="toggleChangeLeague()">
             <md-tooltip>
               Change League
             </md-tooltip>
           </ng-md-icon>
         </md-button>
-        <md-button class="md-fab">
+        <md-button class="md-fab" ng-show="auth">
           <ng-md-icon icon="group_add" size="24px" ng-click="toggleNewLeague()">
             <md-tooltip>
               New League

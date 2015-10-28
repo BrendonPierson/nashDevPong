@@ -5,7 +5,8 @@ app.controller("SinglesRankCtrl",
   "$timeout",
   "$firebaseArray",
   "league",
-  function($scope, $log, $q, $timeout, $firebaseArray, league) {
+  "tableUI",
+  function($scope, $log, $q, $timeout, $firebaseArray, league, tableUI) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -41,33 +42,10 @@ app.controller("SinglesRankCtrl",
       });
     }
 
-
-    $scope.query = {
-      order: '-eloRating',
-      limit: 5,
-      page: 1
-    };
-    
-    
-    $scope.onpagechange = function(page, limit) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
-    
-    $scope.onorderchange = function(order) {
-      var deferred = $q.defer();
-      
-      $timeout(function () {
-        deferred.resolve();
-      }, 2000);
-      
-      return deferred.promise;
-    };
+    //Table Logic 
+    $scope.query = tableUI.query;
+    $scope.onpagechange = tableUI.onpagechange;
+    $scope.onorderchange = tableUI.onorderchange;
 
   }
 ]);
