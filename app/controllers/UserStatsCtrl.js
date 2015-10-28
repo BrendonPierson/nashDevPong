@@ -16,16 +16,15 @@ app.controller("UserStatsCtrl",
       page: 1
     };
     
+    // Promise responsible for tablepage-change animation
     $scope.onpagechange = function(page, limit) {
       var deferred = $q.defer();
-      
       $timeout(function () {
         deferred.resolve();
       }, 2000);
-      
       return deferred.promise;
     };
-    
+    // Promise responsible for table orderchange animation
     $scope.onorderchange = function(order) {
       var deferred = $q.defer();
       
@@ -36,6 +35,9 @@ app.controller("UserStatsCtrl",
       return deferred.promise;
     };
 
+    // Get an array of all singles matches
+    // filter through the array to find only matches the user was part of 
+    // using lodash functions
     var allSinglesMatches = $firebaseArray(ref.child('singlesMatches'));
     $scope.displayedCollection = [];
     allSinglesMatches.$loaded().then(function(){
@@ -47,7 +49,9 @@ app.controller("UserStatsCtrl",
       console.log("singlesMatches", $scope.displayedCollection);
     });
 
-
+    // Get an array of all doubles matches
+    // filter through the array to find only matches the user was part of 
+    // using lodash functions
     $scope.displayed2Collection = [];
     var allDoublesMatches = $firebaseArray(ref.child('doublesMatches'));
     $scope.displayedCollection = [];
@@ -60,21 +64,10 @@ app.controller("UserStatsCtrl",
       console.log("doublesMatches", $scope.displayed2Collection);
     });
     
+    // Get the user firebase obj
     ref.child("users/" + $routeParams.id).on('value', function(snapshot){
       $scope.user = snapshot.val();
       $log.log("user", $scope.user);
     });
-
-    $scope.showChangeLeague = false;
-    $scope.toggleChangeLeague = function(){
-      $scope.showChangeLeague = $scope.showChangeLeague ? false : true;
-    };
-
-    $scope.showNewLeague = false;
-    $scope.toggleNewLeague = function(){
-      $scope.showNewLeague = $scope.showNewLeague ? false : true;
-    };
-
-    $scope.leagues = $firebaseArray(ref.child('leagues'));
 
 }]);

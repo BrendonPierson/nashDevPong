@@ -12,7 +12,6 @@ app.controller("SinglesRankCtrl",
 
     $scope.displayedCollection = [];
 
-
     // Promise gets the users current league
     var currentLeague = '';
     var promise = league.getLeague();
@@ -24,6 +23,8 @@ app.controller("SinglesRankCtrl",
       alert('Failed: ' + reason);
     });
 
+    // Callback function that fires once the league is returned
+    // Orders users by elo and asigns rank
     function loadLeagueUsers(league){
       var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
       users.$loaded().then(function(users){

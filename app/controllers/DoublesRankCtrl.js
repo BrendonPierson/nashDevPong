@@ -11,6 +11,7 @@ app.controller("DoublesRankCtrl",
     $scope.displayedCollection;
 
     // Promise gets the users current league
+    // Only teams with matches in the current league context will be displayed
     var currentLeague = '';
     var promise = league.getLeague();
     promise.then(function(leag) {
@@ -24,7 +25,9 @@ app.controller("DoublesRankCtrl",
     function loadLeagueTeams(league){
       var teams = $firebaseArray(ref.child('doublesTeams').orderByChild('league').equalTo(league));
       teams.$loaded().then(function(teams){
-        $log.log('teams', teams);
+        // $log.log('teams', teams);
+        // Teams need to be sorted by eloRating so that when the rank 
+        // is assigned below in the for loop, the correct rank is assigned
         teams = _.sortByOrder(teams, ['eloRating'], ['desc']);
 
         for(var i = 0; i < teams.length; i++){

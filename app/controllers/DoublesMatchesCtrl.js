@@ -13,16 +13,13 @@ app.controller("DoublesMatchesCtrl",
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
     $scope.doubles = $firebaseArray(ref.child('doublesTeams'));
-
-    $scope.title="Doubles Matches";
-
     $scope.users = $firebaseArray(ref.child('users'));
-
     $scope.user = ref.getAuth().github;
 
     $log.log("scope.user", $scope.user);
 
-    // Promise gets the users current league
+    // Promise gets the users current league then displays only matches
+    // that took place in that league context
     var currentLeague = '';
     var promise = league.getLeague();
     promise.then(function(leag) {
@@ -53,9 +50,11 @@ app.controller("DoublesMatchesCtrl",
         match.league = currentLeague;
         match.winMargin = Math.abs(match.t1score - match.t2score);
 
+        // Retrieve each teams ELO rating
         match.team1Rating = _.find($scope.doubles, 'teamUid', team1uid).eloRating;
         match.team2Rating = _.find($scope.doubles, 'teamUid', team2uid).eloRating;
 
+        // Handle case of a new team without a rating
         if(typeof match.team1Rating === "undefined"){
           match.team1Rating = 1300;
         }
@@ -63,6 +62,8 @@ app.controller("DoublesMatchesCtrl",
           match.team2Rating = 1300;
         }
 
+        // Update ELO, increment wins or losses, 
+        // and push opposing team uid to win or loss array
         if(match.t1score > match.t2score){
           eloTeam(team1uid, team2uid);
           addMatchStats.pushResults('doublesTeams', team1uid, currentLeague, team2uid);
@@ -72,19 +73,20 @@ app.controller("DoublesMatchesCtrl",
           addMatchStats.pushResults('doublesTeams', team2uid, currentLeague, team1uid);
           addMatchStats.incrementCounts('doublesTeams', match, team2uid, team1uid, currentLeague, false);
         }
-        console.log("match", match);
+        // Add the match to firebase
         $scope.displayedCollection.$add(match).then(function(ref) {
-          var id = ref.key();
-          console.log("added record with id " + id); // returns location in the array
           $scope.displayAddMatch = false;
           $scope.newMatch = {};   
         });  
 
       }, function(reason) {
-        alert('Failed: ' + reason);
+        // Teams array promise failed
+        $log.log('Failed: ' + reason);
       });
     }
 
+    // Initially hide the add match form
+    // Toggle add match form on button click
     $scope.displayAddMatch = false;
     $scope.toggleAddMatch = function(){
       $scope.displayAddMatch = $scope.displayAddMatch ? false : true;

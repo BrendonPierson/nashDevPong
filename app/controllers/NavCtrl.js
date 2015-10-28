@@ -13,8 +13,10 @@ app.controller("NavCtrl",
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
+    // Returns the current auth object or null if not logged in
     $scope.auth = $firebaseAuth(ref).$getAuth();
 
+    // Callback function fires everytime the auth status changes
     $firebaseAuth(ref).$onAuth(function(authdata){
       $scope.auth = authdata;
       if($scope.user){
@@ -24,11 +26,13 @@ app.controller("NavCtrl",
 
     var users = $firebaseArray(ref.child('users'));
 
+    // Once users are loaded, find the user object based on the uid of the auth obj
     users.$loaded().then(function(){
       $scope.user = _.find(users, 'uid', ref.getAuth().uid);
       console.log("scope.user", $scope.user);
     });
 
+    // Find current league based on the users current league property
     var leagues = $firebaseArray(ref.child('leagues'));
     leagues.$loaded().then(function(){
       $scope.leagues = leagues;
@@ -36,18 +40,19 @@ app.controller("NavCtrl",
       console.log("currentLeague", $scope.currentLeague);
     });
 
+    // Start off with change league for hidden, toggle on button click
     $scope.showChangeLeague = false;
     $scope.toggleChangeLeague = function(){
       $scope.showChangeLeague = $scope.showChangeLeague ? false : true;
       $scope.showNewLeague = false;
     };
-
+    // Initially hide new league form, toggle on click
     $scope.showNewLeague = false;
     $scope.toggleNewLeague = function(){
       $scope.showNewLeague = $scope.showNewLeague ? false : true;
       $scope.showChangeLeague = false;
     };
-
+    // Function sets the users firebase league key to the selected league
     $scope.changeUserLeague = function(){
       ref.child('users/' + ref.getAuth().uid + '/league').set($scope.user.league);
       $scope.showChangeLeague = false;
@@ -55,6 +60,7 @@ app.controller("NavCtrl",
       $route.reload();
     };
 
+    // Function to add a new league based on user entered data
     $scope.newleague = {};
     $scope.addNewLeague = function(){
       $scope.newleague.createdBy = ref.getAuth().uid;
@@ -100,7 +106,7 @@ app.controller("NavCtrl",
       // $location.path("/login");
     };
 
-    // Nav bar links
+    // Nav bar link paths
     $scope.logout = function() {
       $firebaseAuth(ref).$unauth();
       $scope.auth = null;
@@ -110,8 +116,7 @@ app.controller("NavCtrl",
       $location.path('/home');
     };
 
-
-    // Side nav logic
+    // Everything below is the Side nav logic directly from Angular Material
     $scope.toggleLeft = buildDelayedToggler('left');
     function debounce(func, wait, context) {
       var timer;
@@ -125,7 +130,6 @@ app.controller("NavCtrl",
         }, wait || 10);
       };
     }
-
     /**
      * Build handler to open/close a SideNav; when animation finishes
      * report completion in console
@@ -154,5 +158,4 @@ app.controller("NavCtrl",
           $log.debug("close LEFT is done");
         });
     };
-
 }]);
