@@ -18,6 +18,6 @@ This web app allows users to record local, friendly ping pong match results.  A 
 ###Contributing 
 1. Fork and clone the repo
 2. cd into the lib directory and run npm start
-3. Work on a specific issue or feature
+3. Create a branch and work on a specific issue or feature
 4. Submit a pull request for the feature
 
