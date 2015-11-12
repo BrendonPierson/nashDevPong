@@ -3,13 +3,14 @@ app.factory("AddMatchStats", [
   function($log) {
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/")
 
+    // Callback function for all of the firebase transactions
+    // Takes the current data in firebase and adds 1 or sets it to 
+    // one if it doesn't exist
     function transactCallback(currentData){
       if (currentData === null) {
-        $log.log('user had no wins.');
         return 1;
       } else {
-        $log.log('Added one win.');
-        return currentData += 1; // Abort the transaction.
+        return currentData += 1;
       }
     }
 

@@ -45,7 +45,7 @@ app.controller("UserStatsCtrl",
         if(_.chain(allSinglesMatches[i]).values().contains($routeParams.id).value()){
           $scope.displayedCollection[$scope.displayedCollection.length] = allSinglesMatches[i];
         }
-      };
+      }
       console.log("singlesMatches", $scope.displayedCollection);
     });
 
@@ -60,7 +60,7 @@ app.controller("UserStatsCtrl",
         if(_.chain(allDoublesMatches[i]).values().contains($routeParams.id).value()){
           $scope.displayed2Collection[$scope.displayed2Collection.length] = allDoublesMatches[i];
         }
-      };
+      }
       console.log("doublesMatches", $scope.displayed2Collection);
     });
     

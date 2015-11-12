@@ -8,8 +8,6 @@ app.controller("DoublesRankCtrl",
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
-    $scope.displayedCollection;
-
     // Promise gets the users current league
     // Only teams with matches in the current league context will be displayed
     var currentLeague = '';
@@ -32,8 +30,11 @@ app.controller("DoublesRankCtrl",
 
         for(var i = 0; i < teams.length; i++){
           teams[i].rank = i + 1;
-          teams[i].winPercent = (teams[i].winNum / (teams[i].winNum + teams[i].lossNum));
-        };
+          teams[i].winNum = teams[i][league].winNum;
+          teams[i].lossNum = teams[i][league].lossNum;
+          //teams[i].eloRating = teams[i][league].eloRating;
+          teams[i].winPercent = (teams[i][league].winNum / (teams[i][league].winNum + teams[i][league].lossNum));
+        }
         $scope.displayedCollection = teams;
       });
     }

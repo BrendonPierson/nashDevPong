@@ -3,10 +3,11 @@ app.controller("SinglesRankCtrl",
   "$log",
   "$q",
   "$timeout",
+  "$location",
   "$firebaseArray",
   "league",
   "tableUI",
-  function($scope, $log, $q, $timeout, $firebaseArray, league, tableUI) {
+  function($scope, $log, $q, $timeout, $location, $firebaseArray, league, tableUI) {
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
 
@@ -33,15 +34,27 @@ app.controller("SinglesRankCtrl",
         users = _.sortByOrder(users, ['eloRating'], ['desc']);
         // Remove users with no games
         users = _.filter(users, function(user){
-          return (user.winNum > 0 || user.lossNum > 0)
+          return (user.winNum > 0 || user.lossNum > 0);
         });
         for (var i = users.length - 1; i >= 0; i--) {
-          users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
+          if(typeof users[i][league].winNum === 'undefined') {
+            users[i][league].winNum = 0;
+          }
+          if(typeof users[i][league].lossNum === 'undefined') {
+            users[i][league].lossNum = 0;
+          }
+          users[i].winPercent = users[i][league].winNum / (users[i][league].winNum + users[i][league].lossNum);
+          users[i].winNum = users[i][league].winNum;
+          users[i].lossNum = users[i][league].lossNum;
           users[i].rank = i + 1;
-        };
+        }
         $scope.displayedCollection = users;
       });
     }
+
+    $scope.userStatsPage = function(user){
+      $location.path("/stats/" + user);
+    };
 
     //Table Logic 
     $scope.query = tableUI.query;

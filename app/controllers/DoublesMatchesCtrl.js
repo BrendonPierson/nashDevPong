@@ -13,7 +13,6 @@ app.controller("DoublesMatchesCtrl",
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
     $scope.doubles = $firebaseArray(ref.child('doublesTeams'));
-    $scope.users = $firebaseArray(ref.child('users'));
     $scope.user = ref.getAuth().github;
 
     $log.log("scope.user", $scope.user);
@@ -25,6 +24,7 @@ app.controller("DoublesMatchesCtrl",
     promise.then(function(leag) {
       $log.log("league", leag);
       setTableData(leag);
+      $scope.users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(leag));
       currentLeague = leag;
     }, function(reason) {
       alert('Failed: ' + reason);

@@ -29,7 +29,6 @@ app.controller("SinglesMatchesCtrl",
       $location.path("/stats/" + user);
     };
 
-    $scope.users = $firebaseArray(ref.child('users'));
 
     // Promise gets the users current league
     // Only users with matches in the current league are displayed
@@ -38,6 +37,7 @@ app.controller("SinglesMatchesCtrl",
     promise.then(function(leag) {
       $log.log("league", leag);
       setTableData(leag);
+      $scope.users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(leag));
       currentLeague = leag;
     }, function(reason) {
       alert('Failed: ' + reason);
