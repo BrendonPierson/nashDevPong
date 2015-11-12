@@ -26,10 +26,16 @@ app.controller("DoublesRankCtrl",
         // $log.log('teams', teams);
         // Teams need to be sorted by eloRating so that when the rank 
         // is assigned below in the for loop, the correct rank is assigned
-        teams = _.sortByOrder(teams, [league['eloRating']], ['desc']);
+        teams = _.sortBy(teams, function(team){
+          if(team[league]){
+            return parseInt(team[league].eloRating);
+          } else {
+            return 1300;
+          }
+        });
 
         for(var i = 0; i < teams.length; i++){
-          teams[i].rank = i + 1;
+          teams[i].rank = teams.length - i;
           teams[i].winNum = teams[i][league].winNum || 0;
           teams[i].lossNum = teams[i][league].lossNum || 0;
           teams[i].eloRating = teams[i][league].eloRating || 1300;
@@ -40,7 +46,11 @@ app.controller("DoublesRankCtrl",
     }
 
     //Table Logic 
-    $scope.query = tableUI.query;
+    $scope.query = {
+      order: '-eloRating',
+      limit: 5,
+      page: 1
+    };
     $scope.onpagechange = tableUI.onpagechange;
     $scope.onorderchange = tableUI.onorderchange;
 

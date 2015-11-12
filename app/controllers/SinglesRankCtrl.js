@@ -31,7 +31,14 @@ app.controller("SinglesRankCtrl",
       users.$loaded().then(function(users){
         // console.log("users", users);
         // Need to sort for adding rank number
-        users = _.sortByOrder(users, [league['eloRating']], ['desc']);
+        users = _.sortBy(users, function(user){
+          if(user[league]){
+            return parseInt(user[league].eloRating);
+          } else {
+            return 1300;
+          }
+        });
+
         // Remove users with no games
         users = _.filter(users, function(user){
           return (user.winNum > 0 || user.lossNum > 0);
@@ -40,7 +47,7 @@ app.controller("SinglesRankCtrl",
           users[i].winNum = users[i][league].winNum || 0;
           users[i].lossNum = users[i][league].lossNum || 0;
           users[i].eloRating = users[i][league].eloRating || 1300;
-          users[i].rank = i + 1;
+          users[i].rank = users.length - i;
           users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
         }
         $scope.displayedCollection = users;
@@ -52,7 +59,12 @@ app.controller("SinglesRankCtrl",
     };
 
     //Table Logic 
-    $scope.query = tableUI.query;
+    // $scope.query = tableUI.query;
+    $scope.query = {
+      order: '-eloRating',
+      limit: 5,
+      page: 1
+    };
     $scope.onpagechange = tableUI.onpagechange;
     $scope.onorderchange = tableUI.onorderchange;
 
