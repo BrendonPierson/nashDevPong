@@ -80,13 +80,13 @@ app.controller("NavCtrl",
     };
   
     /////////// Use this to manually manipulate firebase data //////////
-    var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
-    singlesMatches.$loaded().then(function(){
-      for (var i = singlesMatches.length - 1; i >= 0; i--) {
-        singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
-        singlesMatches.$save(i);
-      };
-    });
+    // var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
+    // singlesMatches.$loaded().then(function(){
+    //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
+    //     singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
+    //     singlesMatches.$save(i);
+    //   };
+    // });
     // var users = $firebaseArray(ref.child('users'));
     // users.$loaded().then(function(){
     //   for (var i = 0; i < users.length; i++) {
