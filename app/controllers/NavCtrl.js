@@ -80,14 +80,26 @@ app.controller("NavCtrl",
     };
   
     /////////// Use this to manually manipulate firebase data //////////
-    // var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
-    // singlesMatches.$loaded().then(function(){
-    //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
-    //     singlesMatches[i].player1Rating = 1300;
-    //     singlesMatches[i].player2Rating = 1300;
-    //     singlesMatches.$save(i);
+    var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
+    singlesMatches.$loaded().then(function(){
+      for (var i = singlesMatches.length - 1; i >= 0; i--) {
+        singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
+        singlesMatches.$save(i);
+      };
+    });
+    // var users = $firebaseArray(ref.child('users'));
+    // users.$loaded().then(function(){
+    //   for (var i = 0; i < users.length; i++) {
+    //     console.log('userleague', users[i]['-K1OjNXM8Q8WzQ0OrtIx']);
+    //     users[i]['-K1Oj3Lu4QWU52ffHxCQ'] = users[i]['-K1OjNXM8Q8WzQ0OrtIx'] || null;
+    //     if(users[i]['-K1Oj3Lu4QWU52ffHxCQ']) {
+    //       users[i]['-K1Oj3Lu4QWU52ffHxCQ'].eloRating = users[i].eloRating;
+    //     }
+    //     users[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
+    //     users.$save(i);
     //   };
     // });
+
     $log.log("authData: ", $scope.auth);
 
     $scope.login = function(){

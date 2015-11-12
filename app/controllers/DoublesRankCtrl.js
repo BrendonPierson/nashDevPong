@@ -26,14 +26,14 @@ app.controller("DoublesRankCtrl",
         // $log.log('teams', teams);
         // Teams need to be sorted by eloRating so that when the rank 
         // is assigned below in the for loop, the correct rank is assigned
-        teams = _.sortByOrder(teams, ['eloRating'], ['desc']);
+        teams = _.sortByOrder(teams, [league['eloRating']], ['desc']);
 
         for(var i = 0; i < teams.length; i++){
           teams[i].rank = i + 1;
-          teams[i].winNum = teams[i][league].winNum;
-          teams[i].lossNum = teams[i][league].lossNum;
-          //teams[i].eloRating = teams[i][league].eloRating;
-          teams[i].winPercent = (teams[i][league].winNum / (teams[i][league].winNum + teams[i][league].lossNum));
+          teams[i].winNum = teams[i][league].winNum || 0;
+          teams[i].lossNum = teams[i][league].lossNum || 0;
+          teams[i].eloRating = teams[i][league].eloRating || 1300;
+          teams[i].winPercent = (teams[i].winNum / (teams[i].winNum + teams[i].lossNum));
         }
         $scope.displayedCollection = teams;
       });
