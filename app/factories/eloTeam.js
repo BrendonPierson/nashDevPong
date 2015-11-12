@@ -4,6 +4,24 @@ app.factory("eloTeam", [
     var ref = new Firebase("https://nashdev-pong.firebaseio.com/")
     var doublesTeams = $firebaseArray(ref.child('doublesTeams'));
 
+    function updateLeagueElo(winner, loser, league){
+      if(typeof loser[league].eloRating === 'undefined'){
+        loser[league].eloRating = 1300;
+      }
+      if(typeof winner[league].eloRating === 'undefined'){
+        winner[league].eloRating = 1300;
+      }
+      var rankDiff = loser[league].eloRating - winner[league].eloRating;
+      var winnerExpected = 1 / (1 + Math.pow(10, (rankDiff) / 400));
+      var loserExpected = 1 - winnerExpected;
+
+      var winnerNewRank = winner[league].eloRating + 32 * (1 - winnerExpected);
+      var loserNewRank = loser[league].eloRating - 32 * (loserExpected);
+
+      ref.child('doublesTeams/' + winnerUid).child(league).child('eloRating').set(winnerNewRank);
+      ref.child('doublesTeams/' + loserUid).child(league).child('eloRating').set(loserNewRank);
+    }
+
     return function(winnerUid, loserUid){
       doublesTeams.$loaded().then(function(){
         var winner = _.find(doublesTeams, 'teamUid', winnerUid);
@@ -26,6 +44,8 @@ app.factory("eloTeam", [
 
         var winnerNewRank = winner.eloRating + 32 * (1 - winnerExpected);
         var loserNewRank = loser.eloRating - 32 * (loserExpected); 
+
+        updateLeagueElo(winner, loser, league);
 
         ref.child('doublesTeams/' + winnerUid).child('eloRating').set(winnerNewRank);
         ref.child('doublesTeams/' + loserUid).child('eloRating').set(loserNewRank);
