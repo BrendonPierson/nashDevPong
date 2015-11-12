@@ -13,7 +13,7 @@ app.factory("addNewUser",
         newUser.losses = [];
         newUser.winNum = 0;
         newUser.lossNum = 0;
-        newUser.league = "-K1OjNXM8Q8WzQ0OrtIx";
+        newUser.league = "-K1OjDAX9cALaca8PGQh";
         newUser.profileImageUrl = data.github.profileImageURL;
         newUser.dateAdded = Date.now();
 

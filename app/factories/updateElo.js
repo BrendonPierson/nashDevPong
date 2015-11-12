@@ -18,8 +18,8 @@ app.factory("elo", [
       var winnerNewRank = winner[league].eloRating + 32 * (1 - winnerExpected);
       var loserNewRank = loser[league].eloRating - 32 * (loserExpected);
 
-      ref.child('users/' + winnerUid).child(league).child('eloRating').set(winnerNewRank);
-      ref.child('users/' + loserUid).child(league).child('eloRating').set(loserNewRank);
+      ref.child('users/' + winner.uid).child(league).child('eloRating').set(winnerNewRank);
+      ref.child('users/' + loser.uid).child(league).child('eloRating').set(loserNewRank);
     }
 
     return function(winnerUid, loserUid){
@@ -34,10 +34,10 @@ app.factory("elo", [
 
         var winnerNewRank = winner.eloRating + 32 * (1 - winnerExpected);
         var loserNewRank = loser.eloRating - 32 * (loserExpected); 
-        updateLeagueElo(winner, loser, league);
 
         ref.child('users/' + winnerUid).child('eloRating').set(winnerNewRank);
         ref.child('users/' + loserUid).child('eloRating').set(loserNewRank);
+        updateLeagueElo(winner, loser, league);
       });
     }
   }

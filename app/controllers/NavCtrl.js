@@ -19,9 +19,12 @@ app.controller("NavCtrl",
     // Callback function fires everytime the auth status changes
     $firebaseAuth(ref).$onAuth(function(authdata){
       $scope.auth = authdata;
-      if($scope.user){
+      // Once users are loaded, find the user object based on the uid of the auth obj
+      users.$loaded().then(function(){
+        $scope.user = _.find(users, 'uid', authdata.uid);
         $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
-      }
+        console.log("scope.user", $scope.user);
+      });
     });
 
     var users = $firebaseArray(ref.child('users'));
@@ -58,7 +61,7 @@ app.controller("NavCtrl",
       $scope.showChangeLeague = false;
       // The reload changes the data when the league changes
       $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
-      location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
+      //location.reload();
     };
 
     // Function to add a new league based on user entered data
@@ -74,29 +77,29 @@ app.controller("NavCtrl",
       $scope.showNewLeague = false;
       $scope.newleague = {};
       $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
-      location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
+      //location.reload();
     };
   
     /////////// Use this to manually manipulate firebase data //////////
-    // var singlesMatches = $firebaseArray(ref.child('doublesMatches'));
-    // singlesMatches.$loaded().then(function(){
-    //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
-    //     singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
-    //     singlesMatches.$save(i);
-    //   };
-    // });
-    // var users = $firebaseArray(ref.child('doublesTeams'));
-    // users.$loaded().then(function(){
-    //   for (var i = 0; i < users.length; i++) {
-    //     console.log('userleague', users[i]['-K1OjNXM8Q8WzQ0OrtIx']);
-    //     users[i]['-K1Oj3Lu4QWU52ffHxCQ'] = users[i]['-K1OjNXM8Q8WzQ0OrtIx'] || null;
-    //     if(users[i]['-K1Oj3Lu4QWU52ffHxCQ']) {
-    //       users[i]['-K1Oj3Lu4QWU52ffHxCQ'].eloRating = users[i].eloRating;
-    //     }
-    //     users[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
-    //     users.$save(i);
-    //   };
-    // });
+      // var singlesMatches = $firebaseArray(ref.child('doublesMatches'));
+      // singlesMatches.$loaded().then(function(){
+      //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
+      //     singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
+      //     singlesMatches.$save(i);
+      //   };
+      // });
+      // var users = $firebaseArray(ref.child('doublesTeams'));
+      // users.$loaded().then(function(){
+      //   for (var i = 0; i < users.length; i++) {
+      //     console.log('userleague', users[i]['-K1OjNXM8Q8WzQ0OrtIx']);
+      //     users[i]['-K1Oj3Lu4QWU52ffHxCQ'] = users[i]['-K1OjNXM8Q8WzQ0OrtIx'] || null;
+      //     if(users[i]['-K1Oj3Lu4QWU52ffHxCQ']) {
+      //       users[i]['-K1Oj3Lu4QWU52ffHxCQ'].eloRating = users[i].eloRating;
+      //     }
+      //     users[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
+      //     users.$save(i);
+      //   };
+      // });
 
     $log.log("authData: ", $scope.auth);
 
@@ -112,11 +115,11 @@ app.controller("NavCtrl",
             $log.log("user exists");
             $log.log("authdata", authData);
             //location.reload();
-            location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
+            //location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
           } else {
             $log.log("new user");
             newUser.add(authData);
-            location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
+          //location.reload();
           }
         }
       });

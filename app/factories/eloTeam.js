@@ -18,8 +18,8 @@ app.factory("eloTeam", [
       var winnerNewRank = winner[league].eloRating + 32 * (1 - winnerExpected);
       var loserNewRank = loser[league].eloRating - 32 * (loserExpected);
 
-      ref.child('doublesTeams/' + winnerUid).child(league).child('eloRating').set(winnerNewRank);
-      ref.child('doublesTeams/' + loserUid).child(league).child('eloRating').set(loserNewRank);
+      ref.child('doublesTeams/' + winner.uid).child(league).child('eloRating').set(winnerNewRank);
+      ref.child('doublesTeams/' + loser.uid).child(league).child('eloRating').set(loserNewRank);
     }
 
     return function(winnerUid, loserUid){
