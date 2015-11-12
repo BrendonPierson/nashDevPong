@@ -29,7 +29,7 @@ app.controller("SinglesRankCtrl",
     function loadLeagueUsers(league){
       var users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(league));
       users.$loaded().then(function(users){
-        // console.log("users", users);
+        console.log("users", users);
         // Need to sort for adding rank number
         users = _.sortBy(users, function(user){
           if(user[league]){
@@ -41,8 +41,9 @@ app.controller("SinglesRankCtrl",
 
         // Remove users with no games
         users = _.filter(users, function(user){
-          return (user.winNum > 0 || user.lossNum > 0);
+          return (typeof user[league] !== "undefined");
         });
+        console.log("filtered users", users);
         for (var i = users.length - 1; i >= 0; i--) {
           users[i].winNum = users[i][league].winNum || 0;
           users[i].lossNum = users[i][league].lossNum || 0;
@@ -50,6 +51,7 @@ app.controller("SinglesRankCtrl",
           users[i].rank = users.length - i;
           users[i].winPercent = users[i].winNum / (users[i].winNum + users[i].lossNum);
         }
+        console.log("edited users", users);
         $scope.displayedCollection = users;
       });
     }

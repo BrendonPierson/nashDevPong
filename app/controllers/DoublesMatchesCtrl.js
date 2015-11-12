@@ -50,20 +50,19 @@ app.controller("DoublesMatchesCtrl",
         match.league = currentLeague;
         match.winMargin = Math.abs(match.t1score - match.t2score);
 
-        // Retrieve each teams ELO rating
-        if(_.find($scope.doubles, 'teamUid', team1uid)[currentLeague]){
-          match[currentLeague].eloRating = _.find($scope.doubles, 'teamUid', team1uid)[currentLeague].eloRating || 1300;
-        } 
-        if(_.find($scope.doubles, 'teamUid', team2uid)[currentLeague]){
-          match[currentLeague].team2Rating = _.find($scope.doubles, 'teamUid', team2uid)[currentLeague].eloRating || 1300;
-        } 
+        match.league = currentLeague
 
-        // Handle case of a new team without a rating
-        if(typeof match.team1Rating === "undefined"){
+        $log.log("team 1", _.find($scope.doubles, 'teamUid', team1uid));
+        // Retrieve each teams ELO rating, if they exist, otherwise set to 1300
+        if(typeof _.find($scope.doubles, 'teamUid', team1uid)[currentLeague] === "undefined"){
           match.team1Rating = 1300;
+        } else {
+          match.team1Rating = _.find($scope.doubles, 'teamUid', team1uid)[currentLeague].eloRating || 1300;
         }
-        if(typeof match.team2Rating === "undefined"){
+        if(typeof _.find($scope.doubles, 'teamUid', team2uid)[currentLeague] === "undefined"){
           match.team2Rating = 1300;
+        } else {
+          match.team2Rating = _.find($scope.doubles, 'teamUid', team2uid)[currentLeague].eloRating || 1300;
         }
 
         // Update ELO, increment wins or losses, 
