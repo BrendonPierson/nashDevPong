@@ -51,8 +51,12 @@ app.controller("DoublesMatchesCtrl",
         match.winMargin = Math.abs(match.t1score - match.t2score);
 
         // Retrieve each teams ELO rating
-        match.team1Rating = _.find($scope.doubles, 'teamUid', team1uid).eloRating;
-        match.team2Rating = _.find($scope.doubles, 'teamUid', team2uid).eloRating;
+        if(_.find($scope.doubles, 'teamUid', team1uid)[currentLeague]){
+          match[currentLeague].eloRating = _.find($scope.doubles, 'teamUid', team1uid)[currentLeague].eloRating || 1300;
+        } 
+        if(_.find($scope.doubles, 'teamUid', team2uid)[currentLeague]){
+          match[currentLeague].team2Rating = _.find($scope.doubles, 'teamUid', team2uid)[currentLeague].eloRating || 1300;
+        } 
 
         // Handle case of a new team without a rating
         if(typeof match.team1Rating === "undefined"){

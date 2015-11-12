@@ -47,8 +47,16 @@ app.controller("SinglesMatchesCtrl",
     $scope.addMatch = function(){
       $scope.newMatch.date = Date.now();
       $scope.newMatch.player1 = ref.getAuth().uid;
-      $scope.newMatch.player1Rating = user.eloRating;
-      $scope.newMatch.player2Rating = _.find($scope.users, 'uid', $scope.newMatch.player2).eloRating;
+      if(user[currentLeague]){
+        $scope.newMatch.player1Rating = user[currentLeague].eloRating || 1300;
+      } else {
+        $scope.newMatch.player1Rating = 1300;
+      }
+      if(_.find($scope.users, 'uid', $scope.newMatch.player2)[currentLeague]){
+        $scope.newMatch.player2Rating = _.find($scope.users, 'uid', $scope.newMatch.player2)[currentLeague].eloRating || 1300;
+      } else {
+        $scope.newMatch.player2Rating = 1300;
+      }
       $scope.newMatch.league = currentLeague;
       $scope.newMatch.winMargin = Math.abs($scope.newMatch.player1pts - $scope.newMatch.player2pts);
       $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
@@ -67,6 +75,12 @@ app.controller("SinglesMatchesCtrl",
     };
     // Populate table data
     function setTableData(league){
+      // var singlesMatches = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
+      // singlesMatches.$loaded().then(function(){
+      //   for (var i = 0; i < singlesMatches.length; i++) {
+      //     singlesMatches[i].
+      //   };
+      // });
       $scope.displayedCollection = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
     }
     // Update users ELO, win/loss counter and push opposing team to appropriate array
