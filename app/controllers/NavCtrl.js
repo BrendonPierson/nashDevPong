@@ -58,8 +58,7 @@ app.controller("NavCtrl",
       $scope.showChangeLeague = false;
       // The reload changes the data when the league changes
       $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
-      $route.reload();
-      location.reload();
+      location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
     };
 
     // Function to add a new league based on user entered data
@@ -75,19 +74,18 @@ app.controller("NavCtrl",
       $scope.showNewLeague = false;
       $scope.newleague = {};
       $scope.currentLeague = _.find(leagues,'uid', $scope.user.league);
-      $route.reload();
-      location.reload();
+      location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
     };
   
     /////////// Use this to manually manipulate firebase data //////////
-    // var singlesMatches = $firebaseArray(ref.child('singlesMatches'));
+    // var singlesMatches = $firebaseArray(ref.child('doublesMatches'));
     // singlesMatches.$loaded().then(function(){
     //   for (var i = singlesMatches.length - 1; i >= 0; i--) {
     //     singlesMatches[i].league = '-K1Oj3Lu4QWU52ffHxCQ';
     //     singlesMatches.$save(i);
     //   };
     // });
-    // var users = $firebaseArray(ref.child('users'));
+    // var users = $firebaseArray(ref.child('doublesTeams'));
     // users.$loaded().then(function(){
     //   for (var i = 0; i < users.length; i++) {
     //     console.log('userleague', users[i]['-K1OjNXM8Q8WzQ0OrtIx']);
@@ -113,8 +111,8 @@ app.controller("NavCtrl",
           if(newUser.checkForUser(authData.uid, users)){
             $log.log("user exists");
             $log.log("authdata", authData);
-            location.reload();
-            // location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
+            //location.reload();
+            location.href = "https://nashdev-pong.firebaseapp.com/#/singlesmatches";
           } else {
             $log.log("new user");
             newUser.add(authData);
