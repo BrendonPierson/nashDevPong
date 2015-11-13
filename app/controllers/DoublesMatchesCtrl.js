@@ -50,7 +50,7 @@ app.controller("DoublesMatchesCtrl",
         match.league = currentLeague;
         match.winMargin = Math.abs(match.t1score - match.t2score);
 
-        match.league = currentLeague
+        match.league = currentLeague;
 
         $log.log("team 1", _.find($scope.doubles, 'teamUid', team1uid));
         // Retrieve each teams ELO rating, if they exist, otherwise set to 1300
