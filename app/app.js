@@ -36,16 +36,16 @@ app.config(['$routeProvider', function($routeProvider){
           return fb.getAuthObj().$requireAuth();
         }]
       }
-    }).
-    when('/stats/:id', {
-      templateUrl: 'partials/userStats.html',
-      controller: 'UserStatsCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
     })
+    // when('/stats/:id', {
+    //   templateUrl: 'partials/userStats.html',
+    //   controller: 'UserStatsCtrl',
+    //   resolve: {
+    //     "currentAuth": ["fb", function(fb) {
+    //       return fb.getAuthObj().$requireAuth();
+    //     }]
+    //   }
+    // })
     .when('/singlesmatches', {
       templateUrl: 'partials/singlesMatchTable.html',
       controller: 'SinglesMatchesCtrl',
@@ -61,15 +61,6 @@ app.config(['$routeProvider', function($routeProvider){
       resolve: {
         "currentAuth": ["fb", function(fb) {
           return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    }).
-    when('/home', {
-      templateUrl: 'partials/home.html',
-      controller: 'HomeCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$waitForAuth();
         }]
       }
     }).
