@@ -1,18 +1,18 @@
 <div layout layout-padding layout-margin layout-align="center top" layout-sm="column" wrap>
   <div layout-align="center center">
-    <h1>{{ user.displayName }} </h1>
-    <img class="profile-image" ng-src="{{ user.profileImageUrl }}" alt="Profile Image" width="300px">
+    <h1>{{ vm.user.displayName }} </h1>
+    <img class="profile-image" ng-src="{{ vm.user.profileImageUrl }}" alt="Profile Image" width="300px">
   </div>
   <div flex id="stats">
     <md-card layout-align="center center">
       <md-card-content ng-cloak>
         <h1>Stats</h1>
-        <h3>aka {{ user.userName }} </h3>
-        <p>Joined {{ user.dateAdded | date }}</p>
-        <h3>Total Wins: {{ user.winNum }}</h3>
-        <h3>Total Losses: {{ user.lossNum }}</h3>
-        <h3>Win Percentage: {{ (user.winNum / (user.winNum + user.lossNum)) | percent:2 }}</h3>
-        <h3>Rating: {{ user.eloRating | number:0 }}</h3>
+        <h3>aka {{ vm.user.userName }} </h3>
+        <p>Joined {{ vm.user.dateAdded | date }}</p>
+        <h3>Total Wins: {{ vm.user.winNum }}</h3>
+        <h3>Total Losses: {{ vm.user.lossNum }}</h3>
+        <h3>Win Percentage: {{ (vm.user.winNum / (vm.user.winNum + vm.user.lossNum)) | percent:2 }}</h3>
+        <h3>Rating: {{ vm.user.eloRating | number:0 }}</h3>
 
 <!-- Commented out forms to view, change, and add a league -->
        <!--  <p>Current League: {{ user.league | leagueFilter }}</p>
@@ -86,7 +86,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="row in displayedCollection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+          <tr ng-repeat="row in vm.displayedCollection | orderBy: vm.query.order | limitTo: vm.query.limit: (vm.query.page - 1) * vm.query.limit">
             <td>{{ row.date | date:"medium" }}</td>
             <td>{{ row.player1 | userName }}</td>
             <td>{{ row.player1Rating | number:0 }}</td>
@@ -111,7 +111,7 @@
 
     <md-data-table-container>
       <table md-data-table class="md-primary" md-progress="deferred">
-        <thead md-order="query.order" md-trigger="onorderchange">
+        <thead md-order="vm.query.order" md-trigger="onorderchange">
           <tr>
             <th order-by="date" name="Date" unit=""></th>
             <th order-by="t1player1" name="Team 1"></th>
@@ -123,7 +123,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="row in displayed2Collection | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+          <tr ng-repeat="row in vm.displayed2Collection | orderBy: vm.query.order | limitTo: vm.query.limit: (vm.query.page - 1) * vm.vm.query.limit">
             <td>{{ row.date | date : "medium" }}</td>
             <td>{{ row.t1player1 | userName }} &amp; {{ row.t1player2 | userName }}</td>
             <td>{{ row.team1Rating | number:0 }}</td>
