@@ -36,7 +36,7 @@
           // Need to sort for adding rank number
           users = _.sortBy(users, function(user){
             if(user[league]){
-              return parseInt(user[league].eloRating);
+              return user[league].eloRating;
             } else {
               return 1300;
             }

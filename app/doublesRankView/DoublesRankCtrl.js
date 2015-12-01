@@ -37,7 +37,7 @@
         // is assigned below in the for loop, the correct rank is assigned
         teams = _.sortBy(teams, function(team){
           if(team[league]){
-            return parseInt(team[league].eloRating);
+            return team[league].eloRating;
           } else {
             return 1300;
           }
