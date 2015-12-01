@@ -10,7 +10,7 @@
   function singlesRankRoute($routeProvider) {
     $routeProvider.
     when('/singlesrank', {
-      templateUrl: 'singlesRank/singlesrank.html',
+      templateUrl: 'singlesRankView/singlesrank.html',
       controller: 'SinglesRankCtrl',
       controllerAs: 'vm',
       resolve: {
