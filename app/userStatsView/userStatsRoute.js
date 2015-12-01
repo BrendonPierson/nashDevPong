@@ -5,6 +5,7 @@
     .module('MatchApp')
     .config(userStatsRoute);
 
+  userStatsRoute.$inject = ["$routeProvider"];
   function userStatsRoute($routeProvider) {
     $routeProvider
       .when('/stats/:id', {
