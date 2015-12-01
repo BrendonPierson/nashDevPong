@@ -11,7 +11,7 @@
         <link rel="stylesheet" type="text/css" href="styles/main.css">      
   </head>
   <body ng-app="MatchApp">
-    <div ng-include="'partials/nav.html'" ng-controller="NavCtrl"></div>
+    <div ng-include="'navView/nav.html'" ng-controller="NavCtrl as vm"></div>
     <div ng-view></div>
 
     <script src="/lib/bower_components/angular/angular.js"></script>
@@ -42,9 +42,13 @@
     <script src="/homeView/HomeCtrl.js"></script>
     <script src="/homeView/homeRoute.js"></script>
 
-    <script src="/controllers/NavCtrl.js"></script>
-    <script src="/controllers/SinglesMatchesCtrl.js"></script>
-    <script src="/controllers/DoublesMatchesCtrl.js"></script>
+    <script src="/navView/NavCtrl.js"></script>
+
+    <script src="/singlesMatchesView/SinglesMatchesCtrl.js"></script>
+    <script src="/singlesMatchesView/singlesMatchesRoute.js"></script>
+
+    <script src="/doublesMatchesView/DoublesMatchesCtrl.js"></script>
+    <script src="/doublesMatchesView/doublesMatchesRoute.js"></script>
 
     <script src="/singlesRankView/SinglesRankCtrl.js"></script>
     <script src="/singlesRankView/singlesRankRoute.js"></script>

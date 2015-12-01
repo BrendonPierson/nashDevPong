@@ -1,8 +1,3 @@
-// app.controller("HomeCtrl", 
-//   ["$scope",
-//   function($scope) {
-// }]);
-
 (function() {
     'use strict';
 

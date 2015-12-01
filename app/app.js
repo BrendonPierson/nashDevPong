@@ -18,53 +18,8 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 // The resolve bit is what prevents a user from seeing anything untill they 
 // are logged in. 
 app.config(['$routeProvider', function($routeProvider){
-  $routeProvider.
-    when('/singlesrank', {
-      templateUrl: 'partials/singlesrank.html',
-      controller: 'SinglesRankCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    }).
-    when('/doublesrank', {
-      templateUrl: 'partials/doublesrank.html',
-      controller: 'DoublesRankCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    })
-    // when('/stats/:id', {
-    //   templateUrl: 'partials/userStats.html',
-    //   controller: 'UserStatsCtrl',
-    //   resolve: {
-    //     "currentAuth": ["fb", function(fb) {
-    //       return fb.getAuthObj().$requireAuth();
-    //     }]
-    //   }
-    // })
-    .when('/singlesmatches', {
-      templateUrl: 'partials/singlesMatchTable.html',
-      controller: 'SinglesMatchesCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    }).
-    when('/doublesmatches', {
-      templateUrl: 'partials/doublesMatchTable.html',
-      controller: 'DoublesMatchesCtrl',
-      resolve: {
-        "currentAuth": ["fb", function(fb) {
-          return fb.getAuthObj().$requireAuth();
-        }]
-      }
-    }).
-    otherwise({
+  $routeProvider
+    .otherwise({
       redirectTo: '/home'
     });
 }]);

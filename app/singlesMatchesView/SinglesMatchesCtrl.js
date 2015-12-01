@@ -1,21 +1,24 @@
-app.controller("SinglesMatchesCtrl", 
-  ["$scope", 
-  "$log",
-  "$location",
-  "$firebaseArray",
-  "league",
-  "elo",
-  "AddMatchStats",
-  "tableUI",
-  function($scope, $log, $location, $firebaseArray, 
+(function(){
+  'use strict';
+  angular
+    .module('MatchApp')
+    .controller("SinglesMatchesCtrl", SinglesMatchesCtrl);
+
+  SinglesMatchesCtrl.$inject = ["$log","$location","$firebaseArray","league",
+    "elo","AddMatchStats","tableUI"];
+
+  function SinglesMatchesCtrl($log, $location, $firebaseArray, 
     league, elo, addMatchStats, tableUI) {
+
+    var vm = this;
+
     // Initialize newMatch 
-    $scope.newMatch = {};
+    vm.newMatch = {};
 
     var ref = new Firebase("https://nashdev-pong.firebaseio.com");
 
     // Get the github username from the auth obj
-    $scope.username = ref.getAuth().github.username;
+    vm.username = ref.getAuth().github.username;
 
     // Find the current user obj based on auth obj uid
     var user;
@@ -25,7 +28,7 @@ app.controller("SinglesMatchesCtrl",
 
     // Used for when user clicks on a name in the table, 
     // takes the user to a detailed view of whomever they clicked on
-    $scope.userStatsPage = function(user){
+    vm.userStatsPage = function(user){
       $location.path("/stats/" + user);
     };
 
@@ -37,51 +40,45 @@ app.controller("SinglesMatchesCtrl",
     promise.then(function(leag) {
       $log.log("league", leag);
       setTableData(leag);
-      $scope.users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(leag));
+      vm.users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(leag));
       currentLeague = leag;
     }, function(reason) {
       alert('Failed: ' + reason);
     });
 
     // Add a new singles match
-    $scope.addMatch = function(){
-      $scope.newMatch.date = Date.now();
-      $scope.newMatch.player1 = ref.getAuth().uid;
+    vm.addMatch = function(){
+      vm.newMatch.date = Date.now();
+      vm.newMatch.player1 = ref.getAuth().uid;
       if(user[currentLeague]){
-        $scope.newMatch.player1Rating = user[currentLeague].eloRating || 1300;
+        vm.newMatch.player1Rating = user[currentLeague].eloRating || 1300;
       } else {
-        $scope.newMatch.player1Rating = 1300;
+        vm.newMatch.player1Rating = 1300;
       }
-      if(_.find($scope.users, 'uid', $scope.newMatch.player2)[currentLeague]){
-        $scope.newMatch.player2Rating = _.find($scope.users, 'uid', $scope.newMatch.player2)[currentLeague].eloRating || 1300;
+      if(_.find(vm.users, 'uid', vm.newMatch.player2)[currentLeague]){
+        vm.newMatch.player2Rating = _.find(vm.users, 'uid', vm.newMatch.player2)[currentLeague].eloRating || 1300;
       } else {
-        $scope.newMatch.player2Rating = 1300;
+        vm.newMatch.player2Rating = 1300;
       }
-      $scope.newMatch.league = currentLeague;
-      $scope.newMatch.winMargin = Math.abs($scope.newMatch.player1pts - $scope.newMatch.player2pts);
-      $scope.displayedCollection.$add($scope.newMatch).then(function(ref) {
+      vm.newMatch.league = currentLeague;
+      vm.newMatch.winMargin = Math.abs(vm.newMatch.player1pts - vm.newMatch.player2pts);
+      vm.displayedCollection.$add(vm.newMatch).then(function(ref) {
         var id = ref.key();
         console.log("added record with id " + id); // returns location in the array
-        updateRanks($scope.newMatch);
-        $scope.displayAddMatch = false;
-        $scope.newMatch = {};   
+        updateRanks(vm.newMatch);
+        vm.displayAddMatch = false;
+        vm.newMatch = {};   
       });   
     };
 
     // Toggle for add matches form
-    $scope.displayAddMatch = false;
-    $scope.toggleAddMatch = function(){
-      $scope.displayAddMatch = $scope.displayAddMatch ? false : true;
+    vm.displayAddMatch = false;
+    vm.toggleAddMatch = function(){
+      vm.displayAddMatch = vm.displayAddMatch ? false : true;
     };
     // Populate table data
     function setTableData(league){
-      // var singlesMatches = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
-      // singlesMatches.$loaded().then(function(){
-      //   for (var i = 0; i < singlesMatches.length; i++) {
-      //     singlesMatches[i].
-      //   };
-      // });
-      $scope.displayedCollection = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
+      vm.displayedCollection = $firebaseArray(ref.child('singlesMatches').orderByChild('league').equalTo(league));
     }
     // Update users ELO, win/loss counter and push opposing team to appropriate array
     function updateRanks(match){
@@ -97,8 +94,11 @@ app.controller("SinglesMatchesCtrl",
     }
     
     //Table Logic 
-    $scope.query = tableUI.query;
-    $scope.onpagechange = tableUI.onpagechange;
-    $scope.onorderchange = tableUI.onorderchange;
+    vm.query = tableUI.query;
+    vm.onpagechange = tableUI.onpagechange;
+    vm.onorderchange = tableUI.onorderchange;
 
-}]);
+  }
+
+
+})();

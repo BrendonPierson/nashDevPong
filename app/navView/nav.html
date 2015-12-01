@@ -2,32 +2,32 @@
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button" aria-label="menu">
-        <ng-md-icon icon="menu" size="24px" ng-click="toggleLeft()"></ng-md-icon>
+        <ng-md-icon icon="menu" size="24px" ng-click="vm.toggleLeft()"></ng-md-icon>
         <md-tooltip>
           Menu
         </md-tooltip>
       </md-button>
-      <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+      <md-button class="md-icon-button" aria-label="Settings" ng-click="vm.toggleLeft()">
         <h2 hide-sm>Menu</h2>
       </md-button>
       <span flex></span>
       <h2>
-        <span ng-click="goHome()">nashDevPong</span>
+        <span ng-click="vm.goHome()">nashDevPong</span>
         <md-tooltip>
           Home
         </md-tooltip>
       </h2>
       <span flex></span>
-      <h2 ng-hide="auth" ng-click="login()" hide-sm>Login</h2>
+      <h2 ng-hide="vm.auth" ng-click="vm.login()" hide-sm>Login</h2>
       <md-button class="md-icon-button" aria-label="Login">
-        <ng-md-icon ng-hide="auth" icon="login" size="24px" ng-click="login()"></ng-md-icon>
+        <ng-md-icon ng-hide="vm.auth" icon="login" size="24px" ng-click="vm.login()"></ng-md-icon>
         <md-tooltip>
           Login
         </md-tooltip>
       </md-button>
-      <h2 ng-show="auth" ng-click="logout()" hide-sm>Logout</h2>
+      <h2 ng-show="vm.auth" ng-click="vm.logout()" hide-sm>Logout</h2>
       <md-button class="md-icon-button" aria-label="More">
-        <ng-md-icon ng-show="auth" icon="logout" size="24px" ng-click="logout()"></ng-md-icon>
+        <ng-md-icon ng-show="vm.auth" icon="logout" size="24px" ng-click="vm.logout()"></ng-md-icon>
         <md-tooltip>
           Logout
         </md-tooltip>
@@ -45,7 +45,7 @@
           <h1>Menu</h1>
           <span flex></span>
           <md-button class="md-icon-button" aria-label="close">
-            <ng-md-icon icon="close" size="24px" ng-click="close()"></ng-md-icon>
+            <ng-md-icon icon="close" size="24px" ng-click="vm.close()"></ng-md-icon>
             <md-tooltip>
               Close Menu
             </md-tooltip>
@@ -53,41 +53,41 @@
         </div>
       </md-toolbar>
       <md-content layout-padding>
-      <h3 ng-hide="auth">Please login using the door icon in the top right.</h3>
-        <md-button ng-href="#/stats/{{ auth.uid }}" md-ripple-size="auto" class="md-raised md-accent btn-expand" aria-label="stats" ng-click="close()">My stats</md-button>
+      <h3 ng-hide="vm.auth">Please login using the door icon in the top right.</h3>
+        <md-button ng-href="#/stats/{{ vm.auth.uid }}" md-ripple-size="auto" class="md-raised md-accent btn-expand" aria-label="stats" ng-click="vm.close()">My stats</md-button>
         <h3>Matches</h3>
-        <md-button ng-href="#/singlesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Singles</md-button>
-        <md-button ng-href="#/doublesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
+        <md-button ng-href="#/singlesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="vm.close()">Singles</md-button>
+        <md-button ng-href="#/doublesmatches" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="vm.close()">Doubles</md-button>
         <h3>Rankings</h3>
-        <md-button ng-href="#/singlesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Singles</md-button>
-        <md-button ng-href="#/doublesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="close()">Doubles</md-button>
+        <md-button ng-href="#/singlesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="vm.close()">Singles</md-button>
+        <md-button ng-href="#/doublesrank" md-ripple-size="auto" class="md-raised md-accent btn-expand" ng-click="vm.close()">Doubles</md-button>
 
         <!-- forms to view, change, and add a league -->
-        <p ng-show="auth">Current League: {{ currentLeague.nickName }}</p>
-        <form ng-show="showNewLeague" ng-submit="addNewLeague()">
+        <p ng-show="vm.auth">Current League: {{ vm.currentLeague.nickName }}</p>
+        <form ng-show="vm.showNewLeague" ng-submit="vm.addNewLeague()">
           <md-input-container>
             <div layout="column">
               <md-input-container flex>
                 <label>League name</label>
-                <input ng-model="newleague.name">
+                <input ng-model="vm.newleague.name">
               </md-input-container>
               <md-input-container flex>
                 <label>nickName</label>
-                <input ng-model="newleague.nickName">
+                <input ng-model="vm.newleague.nickName">
               </md-input-container>
               <md-input-container flex>
                 <label>Location</label>
-                <input ng-model="newleague.location">
+                <input ng-model="vm.newleague.location">
               </md-input-container>
             </div>
           </md-input-container>
           <md-button class="md-raised md-primary">Submit</md-button>
         </form>
-        <form ng-show="showChangeLeague" ng-submit="changeUserLeague()">
+        <form ng-show="vm.showChangeLeague" ng-submit="vm.changeUserLeague()">
           <md-input-container>
             <label>League</label>
-            <md-select ng-model="user.league">
-              <md-option ng-repeat="league in leagues" value="{{ league.uid }}">
+            <md-select ng-model="vm.user.league">
+              <md-option ng-repeat="league in vm.leagues" value="{{ league.uid }}">
                 {{ league.nickName }}
               </md-option>
             </md-select>
@@ -95,15 +95,15 @@
           <md-button class="md-raised md-primary">Submit</md-button>
         </form>
         <span flex></span>
-        <md-button class="md-fab" ng-show="auth">
-          <ng-md-icon icon="find_replace" size="24px" ng-click="toggleChangeLeague()">
+        <md-button class="md-fab" ng-show="vm.auth">
+          <ng-md-icon icon="find_replace" size="24px" ng-click="vm.toggleChangeLeague()">
             <md-tooltip>
               Change League
             </md-tooltip>
           </ng-md-icon>
         </md-button>
-        <md-button class="md-fab" ng-show="auth">
-          <ng-md-icon icon="group_add" size="24px" ng-click="toggleNewLeague()">
+        <md-button class="md-fab" ng-show="vm.auth">
+          <ng-md-icon icon="group_add" size="24px" ng-click="vm.toggleNewLeague()">
             <md-tooltip>
               New League
             </md-tooltip>
