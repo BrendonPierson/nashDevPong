@@ -65,6 +65,6 @@
           ref.child('doublesTeams/' + winnerUid).child('eloRating').set(winnerNewRank);
           ref.child('doublesTeams/' + loserUid).child('eloRating').set(loserNewRank);
         });
-      }
+      };
     }
 })();

@@ -7,7 +7,7 @@
     teamName.$inject = ["REF","$q"];
 
     function teamName(fbref,$q) {
-      var ref = new Firebase(fbref)
+      var ref = new Firebase(fbref);
 
       return function(match, league){
         return $q(function(resolve, reject) {
@@ -36,7 +36,7 @@
           resolve(teamsArr);
 
         });
-      }
+      };
     }
 
 })();

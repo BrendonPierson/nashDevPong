@@ -45,7 +45,7 @@
           ref.child('users/' + loserUid).child('eloRating').set(loserNewRank);
           updateLeagueElo(winner, loser, league);
         });
-      }
+      };
     }
 
 })();

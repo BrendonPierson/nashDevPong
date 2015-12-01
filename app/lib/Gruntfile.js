@@ -2,8 +2,27 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
+    pkg: grunt.file.readJSON('package.json'),
+
+    karma: {
+        unit: {
+            configFile: 'karma.conf.js'
+        }
+    },
+
     jshint: {
-      files: ['../controllers/*.js', '../facotries/*.js', '../filters/*.js']
+      files: [
+        '../doublesMatchesView/*.js', 
+        '../doublesRankView/*.js', 
+        '../factories/*.js',
+        '../filters/*.js',
+        '../homeVIew/*.js',
+        '../navView/*.js',
+        '../singlesMatchesView/*.js',
+        '../singlesRankView/*.js',
+        '../userStatsView/*.js',
+        '../app*.js'
+      ]
     },
     sass: {
       dist: {
@@ -26,5 +45,5 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['jshint', 'sass', 'watch']);
+  grunt.registerTask('default', ['jshint', 'sass', 'karma', 'watch']);
 };

@@ -2,11 +2,11 @@
   'user strict';
   angular
     .module("MatchApp")
-    .factory("league", league);
+    .factory("league", League);
 
-    league.$inject = ["$q","$firebaseArray","REF"];
+    League.$inject = ["$q","$firebaseArray","REF"];
 
-    function league($q,$firebaseArray,fbref) {
+    function League($q,$firebaseArray,fbref) {
       console.log("ref", fbref);
       var ref = new Firebase(fbref);
       var users = $firebaseArray(ref.child('users'));

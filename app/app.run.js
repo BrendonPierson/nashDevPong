@@ -1,10 +1,10 @@
 (function(){
   'use strict';
-  
+
   angular
     .module("MatchApp")
 
-    .run(run)
+    .run(run);
 
   run.$inject = ["$rootScope", "$location"];
 
