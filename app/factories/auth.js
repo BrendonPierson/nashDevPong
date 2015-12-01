@@ -1,7 +1,14 @@
-app.factory("Auth", ["$firebaseAuth",
-  function($firebaseAuth) {
-    // returns the firebase authenication object that we acces in our LoginCtrl
-    var ref = new Firebase("https://nashdev-pong.firebaseio.com/matches");
-    return $firebaseAuth(ref);
-  }
-]);
+(function(){
+  'user strict';
+  angular
+    .module("MatchApp")
+    .factory("Auth", Auth);
+
+    Auth.$inject = ["REF","$firebaseAuth"];
+
+    function Auth(fbref,$firebaseAuth) {
+      var ref = new Firebase(fbref);
+      return $firebaseAuth(ref);
+    }
+
+})();

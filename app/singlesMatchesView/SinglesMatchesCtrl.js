@@ -5,17 +5,17 @@
     .controller("SinglesMatchesCtrl", SinglesMatchesCtrl);
 
   SinglesMatchesCtrl.$inject = ["$log","$location","$firebaseArray","league",
-    "elo","AddMatchStats","tableUI"];
+    "elo","AddMatchStats","tableUI","REF"];
 
   function SinglesMatchesCtrl($log, $location, $firebaseArray, 
-    league, elo, addMatchStats, tableUI) {
+    league, elo, addMatchStats, tableUI,fbref) {
 
     var vm = this;
 
     // Initialize newMatch 
     vm.newMatch = {};
 
-    var ref = new Firebase("https://nashdev-pong.firebaseio.com");
+    var ref = new Firebase(fbref);
 
     // Get the github username from the auth obj
     vm.username = ref.getAuth().github.username;

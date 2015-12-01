@@ -1,10 +1,16 @@
-app.filter('userName', [
-  "fb",
-  function(fb) {
-    var users = fb.getUsersArr();
+(function(){
+  'user strict';
+  angular
+    .module("MatchApp")
+    .filter("userName", userName);
 
-    return function(uid) {
-      return _.find(users, 'uid', uid).userName;
-    };
-  }
-]);
+    userName.$inject = ["fb"];
+
+    function userName(fb) {
+      var users = fb.getUsersArr();
+
+      return function(uid) {
+        return _.find(users, 'uid', uid).userName;
+      };
+    }
+})();

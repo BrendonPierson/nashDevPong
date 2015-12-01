@@ -1,30 +1,38 @@
-app.factory("addNewUser", 
-  function() {
-    var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
+(function(){
+  'user strict';
+  angular
+    .module("MatchApp")
+    .factory("addNewUser", addNewUser);
 
-    return {
-      add: function(data){
-        var newUser = {};
-        newUser.displayName = data.github.displayName;
-        newUser.userName = data.github.username;
-        newUser.uid = data.uid;
-        newUser.eloRating = 1300;
-        newUser.wins = [];
-        newUser.losses = [];
-        newUser.winNum = 0;
-        newUser.lossNum = 0;
-        newUser.league = "-K1OjDAX9cALaca8PGQh";
-        newUser.profileImageUrl = data.github.profileImageURL;
-        newUser.dateAdded = Date.now();
+    addNewUser.$inject = ["REF","DefaultLeague"];
 
-        ref.child('users').child(newUser.uid).set(newUser);
-      },
-      checkForUser: function (uid, users){
-        if(_.find(users, 'uid', uid)){
-          return true;
-        } else {
-          return false;
-        }
-      }  
-  };
-});
+    function addNewUser(fbref,defaultLeague){
+      var ref = new Firebase(fbref);
+
+      return {
+        add: function(data){
+          var newUser = {};
+          newUser.displayName = data.github.displayName;
+          newUser.userName = data.github.username;
+          newUser.uid = data.uid;
+          newUser.eloRating = 1300;
+          newUser.wins = [];
+          newUser.losses = [];
+          newUser.winNum = 0;
+          newUser.lossNum = 0;
+          newUser.league = defaultLeague;
+          newUser.profileImageUrl = data.github.profileImageURL;
+          newUser.dateAdded = Date.now();
+
+          ref.child('users').child(newUser.uid).set(newUser);
+        },
+        checkForUser: function (uid, users){
+          if(_.find(users, 'uid', uid)){
+            return true;
+          } else {
+            return false;
+          }
+        }  
+      };
+    }
+})();

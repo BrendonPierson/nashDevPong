@@ -1,14 +1,20 @@
-app.filter('teamMembers', [
-  "fb",
-  function(fb) {
-    var users = fb.getUsersArr();
+(function(){
+  'user strict';
+  angular
+    .module("MatchApp")
+    .filter("teamMembers", teamMembers);
 
-    return function(uid) {
-      var uids = uid.split("-");
-      var p1 = _.find(users, 'uid', uids[0]).userName;
-      var p2 = _.find(users, 'uid', uids[1]).userName;
+    teamMembers.$inject = ["fb"];
 
-      return p1 + " & " + p2;
+    function teamMembers(fb) {
+      var users = fb.getUsersArr();
+
+      return function(uid) {
+        var uids = uid.split("-");
+        var p1 = _.find(users, 'uid', uids[0]).userName;
+        var p2 = _.find(users, 'uid', uids[1]).userName;
+
+        return p1 + " & " + p2;
+      };
     };
-  }
-]);
+})();

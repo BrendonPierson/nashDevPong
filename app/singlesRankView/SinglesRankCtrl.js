@@ -6,13 +6,13 @@
       .controller('SinglesRankCtrl', SinglesRankCtrl);
 
     SinglesRankCtrl.$inject = ["$log","$q","$timeout","$location",
-                              "$firebaseArray", "league", "tableUI"];
+                              "$firebaseArray", "league", "tableUI","REF"];
                               
     function SinglesRankCtrl($log, $q, $timeout, $location, $firebaseArray, 
-                              league, tableUI) { 
+                              league, tableUI,fbref) { 
       var vm = this;
 
-      var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
+      var ref = new Firebase(fbref);
 
       vm.displayedCollection = [];
 

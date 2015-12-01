@@ -5,38 +5,14 @@
     .module('MatchApp')
     .controller('UserStatsCtrl', UserStatsCtrl);
 
-  UserStatsCtrl.$inject = ["$log","$q","$timeout","$routeParams","$firebaseArray"]
+  UserStatsCtrl.$inject = ["$log","$q","$timeout","$routeParams",
+    "$firebaseArray","tableUI","REF"];
 
-    function UserStatsCtrl($log, $q, $timeout, $routeParams, $firebaseArray) { 
+    function UserStatsCtrl($log, $q, $timeout, $routeParams, $firebaseArray,
+        tableUI,fbref) { 
       var vm = this;
 
-      var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
-
-      // Table Logic
-      vm.query = {
-        order: '-date',
-        limit: 5,
-        page: 1
-      };
-      
-      // Promise responsible for tablepage-change animation
-      vm.onpagechange = function(page, limit) {
-        var deferred = $q.defer();
-        $timeout(function () {
-          deferred.resolve();
-        }, 2000);
-        return deferred.promise;
-      };
-      // Promise responsible for table orderchange animation
-      vm.onorderchange = function(order) {
-        var deferred = $q.defer();
-        
-        $timeout(function () {
-          deferred.resolve();
-        }, 2000);
-        
-        return deferred.promise;
-      };
+      var ref = new Firebase(fbref);
 
       // Get an array of all singles matches
       // filter through the array to find only matches the user was part of 
@@ -72,6 +48,11 @@
         vm.user = snapshot.val();
         $log.log("user", vm.user);
       });
+
+      //Table Logic 
+      vm.query = tableUI.query;
+      vm.onpagechange = tableUI.onpagechange;
+      vm.onorderchange = tableUI.onorderchange;
 
     }
 })();

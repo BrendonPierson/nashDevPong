@@ -5,12 +5,12 @@
       .module('MatchApp')
       .controller('DoublesRankCtrl', DoublesRankCtrl);
 
-    DoublesRankCtrl.$inject = ["$log","$firebaseArray","league","tableUI"];
+    DoublesRankCtrl.$inject = ["$log","$firebaseArray","league","tableUI","REF"];
 
-    function DoublesRankCtrl($log, $firebaseArray, league, tableUI) { 
+    function DoublesRankCtrl($log, $firebaseArray, league, tableUI,fbref) { 
       var vm = this;
 
-      var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
+      var ref = new Firebase(fbref);
 
       // Promise gets the users current league
       // Only teams with matches in the current league context will be displayed

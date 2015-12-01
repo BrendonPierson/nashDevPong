@@ -1,25 +1,26 @@
-app.factory("fb", [
-  "$firebaseAuth",
-  "$firebaseArray",
-  "$firebaseObject",
-  function($firebaseAuth, $firebaseArray, $firebaseObject) {
+(function(){
+  'user strict';
+  angular
+    .module("MatchApp")
+    .factory("fb", fb);
 
-    var ref = new Firebase("https://nashdev-pong.firebaseio.com/");
+    fb.$inject = ["$firebaseAuth","$firebaseArray","$firebaseObject","REF"];
 
-    return {
-      getRef: function(){
-        return ref;
-      },
-      getUsersArr: function(){
-        return $firebaseArray(ref.child("users"));
-      },
-      getAuthObj: function(){
-        return $firebaseAuth(ref);
-      },
-      getLeagueArr: function(){
-        return $firebaseArray(ref.child('leagues'));
-      }
-    };
-    
-  }
-]);
+    function fb($firebaseAuth, $firebaseArray, $firebaseObject, fbref) {
+      var ref = new Firebase(fbref);
+      return {
+        getRef: function(){
+          return ref;
+        },
+        getUsersArr: function(){
+          return $firebaseArray(ref.child("users"));
+        },
+        getAuthObj: function(){
+          return $firebaseAuth(ref);
+        },
+        getLeagueArr: function(){
+          return $firebaseArray(ref.child('leagues'));
+        }
+      };
+    }
+})();
