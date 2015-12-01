@@ -14,8 +14,8 @@
     </md-data-table-toolbar>
 
     <md-data-table-container>
-      <table md-data-table class="md-primary" md-progress="deferred">
-        <thead md-order="query.order" md-trigger="onorderchange">
+      <table md-data-table class="md-primary" md-progress="vm.deferred">
+        <thead md-order="vm.query.order" md-trigger="vm.onorderchange">
           <tr>
             <th numeric order-by="rank" name="Rank" unit=""></th>
             <th order-by="userName" name="Username"></th>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-click="userStatsPage(row.uid)" ng-repeat="row in displayedCollection | filter:search | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+          <tr ng-click="vm.userStatsPage(row.uid)" ng-repeat="row in vm.displayedCollection | filter:search | orderBy: vm.query.order | limitTo: vm.query.limit: (vm.query.page - 1) * vm.query.limit">
             <td>{{ row.rank }}</td>
             <td>{{ row.userName }}</td>
             <td>{{ row.winNum }}</td>
@@ -38,6 +38,6 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{ displayedCollection.length }}" md-trigger="onpagechange"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{ vm.displayedCollection.length }}" md-trigger="vm.onpagechange"></md-data-table-pagination>
   </md-card>
 </md-content>
