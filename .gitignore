@@ -4,4 +4,4 @@ node_modules
 package.js
 npm-debug.log
 .DS_Store
-data.json
+dataBackup.json
