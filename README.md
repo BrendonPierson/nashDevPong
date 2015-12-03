@@ -15,6 +15,15 @@ This web app allows users to record local, friendly ping pong match results.  A 
 3. [Grunt](http://gruntjs.com/)
 4. [SASS](http://sass-lang.com/guide)
 
+###Customization
+If you would like to use this app in your office or with a group of friends, all you need to do is sign up for a firebase account, create a new app, and edit these two lines in the `app.const.js` file. 
+
+	var ref = "https://nashdev-pong.firebaseio.com/";
+    var defaultLeague = "-K1OjDAX9cALaca8PGQh";
+    
+The ref should be whatever the address of your firebase app. ie `var ref = "https://<your app name here>.firebaseio.com/";`
+The defaultLeague can be set to any of the leagues you create.
+
 ###Contributing 
 1. Fork and clone the repo
 2. cd into the lib directory and run npm start
