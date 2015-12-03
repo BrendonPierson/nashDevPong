@@ -10,9 +10,10 @@
   function NavCtrl($location, $log, $route, $timeout, $mdSidenav, 
     $firebaseAuth, $firebaseArray, newUser, fbref) {
 
-    var vm = this;
-
-    var ref = new Firebase(fbref);
+    var vm = this,
+        ref = new Firebase(fbref),
+        users = $firebaseArray(ref.child('users')),
+        leagues = $firebaseArray(ref.child('leagues'));
 
     // Returns the current auth object or null if not logged in
     vm.auth = $firebaseAuth(ref).$getAuth();
@@ -24,20 +25,18 @@
       users.$loaded().then(function(){
         vm.user = _.find(users, 'uid', authdata.uid);
         vm.currentLeague = _.find(leagues,'uid', vm.user.league);
-        console.log("scope.user", vm.user);
+        $log.log("scope.user", vm.user);
       });
     });
 
-    var users = $firebaseArray(ref.child('users'));
 
     // Once users are loaded, find the user object based on the uid of the auth obj
     users.$loaded().then(function(){
       vm.user = _.find(users, 'uid', ref.getAuth().uid);
-      console.log("scope.user", vm.user);
+      $log.log("scope.user", vm.user);
     });
 
     // Find current league based on the users current league property
-    var leagues = $firebaseArray(ref.child('leagues'));
     leagues.$loaded().then(function(){
       vm.leagues = leagues;
       vm.currentLeague = _.find(leagues,'uid', vm.user.league);
@@ -82,8 +81,6 @@
       $route.reload();
       vm.close();
     };
-
-    $log.log("authData: ", vm.auth);
 
     vm.login = function(){
       // Oauth login with github

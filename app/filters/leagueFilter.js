@@ -12,7 +12,6 @@
 
       return function(uid) {
         leagues.$loaded().then(function(){
-          // console.log("leagueNickname", _.find(leagues, 'uid', uid).nickName);
           return _.find(leagues, 'uid', uid).nickName;
         });
       };

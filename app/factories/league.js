@@ -7,7 +7,6 @@
     League.$inject = ["$q","$firebaseArray","REF"];
 
     function League($q,$firebaseArray,fbref) {
-      console.log("ref", fbref);
       var ref = new Firebase(fbref);
       var users = $firebaseArray(ref.child('users'));
       var uid = ref.getAuth().uid;

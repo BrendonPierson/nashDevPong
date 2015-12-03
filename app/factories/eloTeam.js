@@ -18,19 +18,12 @@
           winner[league].eloRating = 1300;
         }
 
-        console.log("current team league", league);
-        console.log("loserRating", loser[league].eloRating);
-        console.log("winnerRating", winner[league].eloRating);
-
-
         var rankDiff = loser[league].eloRating - winner[league].eloRating;
         var winnerExpected = 1 / (1 + Math.pow(10, (rankDiff) / 400));
         var loserExpected = 1 - winnerExpected;
 
         var winnerNewRank = winner[league].eloRating + 32 * (1 - winnerExpected);
         var loserNewRank = loser[league].eloRating - 32 * (loserExpected);
-        console.log('winnerNewRank', winnerNewRank);
-        console.log('loserNewRank', loserNewRank);
 
         ref.child('doublesTeams/' + winner.teamUid).child(league).child('eloRating').set(winnerNewRank);
         ref.child('doublesTeams/' + loser.teamUid).child(league).child('eloRating').set(loserNewRank);

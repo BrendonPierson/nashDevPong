@@ -16,14 +16,11 @@
       vm.doubles = $firebaseArray(ref.child('doublesTeams'));
       vm.user = ref.getAuth().github;
 
-      $log.log("scope.user", vm.user);
-
       // Promise gets the users current league then displays only matches
       // that took place in that league context
       var currentLeague = '';
       var promise = league.getLeague();
       promise.then(function(leag) {
-        $log.log("league", leag);
         setTableData(leag);
         vm.users = $firebaseArray(ref.child('users').orderByChild('league').equalTo(leag));
         currentLeague = leag;
@@ -53,7 +50,6 @@
 
           match.league = currentLeague;
 
-          $log.log("team 1", _.find(vm.doubles, 'teamUid', team1uid));
           // Retrieve each teams ELO rating, if they exist, otherwise set to 1300
           if(typeof _.find(vm.doubles, 'teamUid', team1uid)[currentLeague] === "undefined"){
             match.team1Rating = 1300;

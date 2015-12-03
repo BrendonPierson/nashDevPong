@@ -10,18 +10,19 @@
   function SinglesMatchesCtrl($log, $location, $firebaseArray, 
     league, elo, addMatchStats, tableUI,fbref) {
 
-    var vm = this;
+    var vm = this,
+        ref = new Firebase(fbref),
+        user,
+        currentLeague = '';
 
     // Initialize newMatch 
     vm.newMatch = {};
 
-    var ref = new Firebase(fbref);
 
     // Get the github username from the auth obj
     vm.username = ref.getAuth().github.username;
 
     // Find the current user obj based on auth obj uid
-    var user;
     ref.child("users/" + ref.getAuth().uid).on('value', function(snapshot){
       user = snapshot.val();
     });
@@ -35,7 +36,6 @@
 
     // Promise gets the users current league
     // Only users with matches in the current league are displayed
-    var currentLeague = '';
     var promise = league.getLeague();
     promise.then(function(leag) {
       $log.log("league", leag);
