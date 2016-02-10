@@ -2,7 +2,7 @@
   'use strict';
   
   var ref = "https://nashdev-pong.firebaseio.com/";
-  var defaultLeague = "-K1OjDAX9cALaca8PGQh";
+  var defaultLeague = "-KACSdq_7yHEXcjjDP_V";
 
   angular
     .module("MatchApp")
