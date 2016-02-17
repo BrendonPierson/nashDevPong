@@ -7,7 +7,7 @@
   SinglesMatchesCtrl.$inject = ["$log","$location","$firebaseArray","league",
     "elo","AddMatchStats","tableUI","REF"];
 
-  function SinglesMatchesCtrl($log, $location, $firebaseArray, 
+  function SinglesMatchesCtrl($log, $location, $firebaseArray,
     league, elo, addMatchStats, tableUI,fbref) {
 
     var vm = this,
@@ -15,7 +15,7 @@
         user,
         currentLeague = '';
 
-    // Initialize newMatch 
+    // Initialize newMatch
     vm.newMatch = {};
 
 
@@ -27,7 +27,7 @@
       user = snapshot.val();
     });
 
-    // Used for when user clicks on a name in the table, 
+    // Used for when user clicks on a name in the table,
     // takes the user to a detailed view of whomever they clicked on
     vm.userStatsPage = function(user){
       $location.path("/stats/" + user);
@@ -48,6 +48,7 @@
 
     // Add a new singles match
     vm.addMatch = function(){
+      console.log("vm.newMatch", vm.newMatch)
       vm.newMatch.date = Date.now();
       vm.newMatch.player1 = ref.getAuth().uid;
       if(user[currentLeague]){
@@ -62,13 +63,14 @@
       }
       vm.newMatch.league = currentLeague;
       vm.newMatch.winMargin = Math.abs(vm.newMatch.player1pts - vm.newMatch.player2pts);
+      debugger;
       vm.displayedCollection.$add(vm.newMatch).then(function(ref) {
         var id = ref.key();
         console.log("added record with id " + id); // returns location in the array
         updateRanks(vm.newMatch);
         vm.displayAddMatch = false;
-        vm.newMatch = {};   
-      });   
+        vm.newMatch = {};
+      });
     };
 
     // Toggle for add matches form
@@ -92,8 +94,8 @@
         addMatchStats.incrementCounts('users', match, "player2", "player1", currentLeague, true);
       }
     }
-    
-    //Table Logic 
+
+    //Table Logic
     vm.query = tableUI.query;
     vm.onpagechange = tableUI.onpagechange;
     vm.onorderchange = tableUI.onorderchange;
