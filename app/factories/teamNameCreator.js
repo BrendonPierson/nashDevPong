@@ -32,7 +32,6 @@
 
           teamsArr[0] = team1uid;
           teamsArr[1] = team2uid;
-
           resolve(teamsArr);
 
         });

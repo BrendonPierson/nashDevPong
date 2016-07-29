@@ -47,6 +47,7 @@
           teams[i].winPercent = (teams[i].winNum / (teams[i].winNum + teams[i].lossNum));
         }
         vm.displayedCollection = teams;
+          console.log("display teams", vm.displayedCollection)
       });
     }
 
